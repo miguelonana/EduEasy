@@ -106,8 +106,8 @@ else if($_SESSION['loggedIn'] != true)
                                     <li class="nav-item">
                                         <a href="#" style="font-size: 1.5rem;">Courses</a>
                                         <ul class="sub-menu">
-                                            <li><a href="#">Premium Courses</a></li>
-                                            <li><a href="#">Free Courses</a></li>
+                                            <li><a href="ShowPaidCourses.php">Premium Courses</a></li>
+                                            <li><a href="ShowFreeCourses.php">Free Courses</a></li>
                                         </ul>
                                     </li>
 

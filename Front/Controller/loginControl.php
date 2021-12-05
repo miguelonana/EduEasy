@@ -46,7 +46,7 @@ function checkAdministrator($userId){
 
 function addConnection($userId){
     $db = config::getconnexion();
-    $loginTime = date('y-m-d H-i-s');
+    $loginTime = date('y-m-d-H-i-s');
     try {
         $query = $db->prepare(
             'INSERT INTO onlineusers (userId,loginTime) 
@@ -147,6 +147,3 @@ else{
 
 //==================== ADMINISTRATOR LOGIN STOPS ===============================
 ?>
-
-
-

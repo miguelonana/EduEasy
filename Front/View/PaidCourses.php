@@ -16,7 +16,24 @@ function getPaidCourses(){
         }
 }
 
+function countNbPaidCourses(){
+    $db = config::getConnexion();
+    
+    $Query = "SELECT count(*) AS nb FROM courses where free=0";
+
+    try {
+        $res = $db->query($Query);
+        $data = $res->fetch();
+        $nbCourses = $data['nb'];
+        
+    } catch (PDOException $e) {
+        $e->getMessage();
+    }
+    return $nbCourses;
+}
+
 $PaidcoursesList = getPaidCourses();
+$nbCourses = countNbPaidCourses();
 
 ?>
 
@@ -274,7 +291,7 @@ $PaidcoursesList = getPaidCourses();
                                 <a id="courses-list-tab" data-toggle="tab" href="#courses-list" role="tab"
                                     aria-controls="courses-list" aria-selected="false"><i class="fa fa-th-list"></i></a>
                             </li>
-                            <li class="nav-item">Showning 4 0f 24 Results</li>
+                            <li class="nav-item">Showing <?php echo $nbCourses; ?> Results</li>
                         </ul> <!-- nav -->
 
                         <div class="courses-search float-right">

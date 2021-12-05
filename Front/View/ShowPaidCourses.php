@@ -2,12 +2,12 @@
 
 include_once "../config.php";
 
-function getFreeCourses(){
+function getPaidCourses(){
     $db = config::getconnexion();
 
     try {
         $query = $db->query(
-        "SELECT * FROM courses where free=1"
+        "SELECT * FROM courses where free=0"
         );
         return $query;
 
@@ -16,10 +16,10 @@ function getFreeCourses(){
         }
 }
 
-function countNbFreeCourses(){
+function countNbPaidCourses(){
     $db = config::getConnexion();
     
-    $Query = "SELECT count(*) AS nb FROM courses where free=1";
+    $Query = "SELECT count(*) AS nb FROM courses where free=0";
 
     try {
         $res = $db->query($Query);
@@ -32,9 +32,15 @@ function countNbFreeCourses(){
     return $nbCourses;
 }
 
-$FreecoursesList = getFreeCourses();
-$nbCourses = countNbFreeCourses();
-
+session_start();
+if(!isset($_SESSION['loggedIn']) )
+    header('location:login.html');
+else if($_SESSION['loggedIn'] != true)
+    header('location:login.html');
+else{
+$PaidcoursesList = getPaidCourses();
+$nbCourses = countNbPaidCourses();
+}
 ?>
 
 
@@ -109,60 +115,7 @@ $nbCourses = countNbFreeCourses();
 
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part">
-
-        <div class="header-top d-none d-lg-block">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="header-contact text-lg-left text-center">
-                            <ul>
-                                <li><img src="images/all-icon/map.png" alt="icon"><span>1140 Rue Amir Abedelkader,
-                                        Tunis</span></li>
-                                <li><img src="images/all-icon/email.png" alt="icon"><span>info@yourmail.com</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="header-opening-time text-lg-right text-center">
-                            <!-- <p>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</p> -->
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header top -->
-
-        <div class="header-logo-support pt-30 pb-30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-1 col-md-1">
-                        <div class="logo">
-                            <a href="#">
-                                <img src="images/logo.png" alt="Logo">
-                            </a>
-                        </div>
-                    </div>
-                    <!-- <div class="col-lg-8 col-md-8">
-                        <div class="support-button float-right d-none d-md-block">
-                            <div class="support float-left">
-                                <div class="icon">
-                                    <img src="images/all-icon/support.png" alt="icon">
-                                </div>
-                                <div class="cont">
-                                    <p>Need Help? call us free</p>
-                                    <span>+2165285125499</span>
-                                </div>
-                            </div>
-                            <div class="button float-left">
-                                <a href="login.html" class="main-btn">Login</a>
-                                <a href="registration.html" class="main-btn">Register</a>
-                            </div>
-                        </div>
-                    </div> -->
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header logo support -->
-
+    <header id="header-part" style="padding-top: 1rem;">
         <div class="navigation">
             <div class="container">
                 <div class="row">
@@ -176,26 +129,26 @@ $nbCourses = countNbFreeCourses();
                                 <span class="icon-bar"></span>
                             </button>
 
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent"
+                                style="margin-left: 10rem;">
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-6">
+                                    <div class="logo">
+                                        <a href="#">
+                                            <img src="images/logo.png" alt="Logo">
+                                        </a>
+                                    </div>
+                                </div>
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item">
-                                        <a class="active" href="index.html">Home</a>
-                                        <!-- <ul class="sub-menu">
-                                            <li><a class="active" href="index-2.html">Home 01</a></li>
-                                            <li><a href="index-3.html">Home 02</a></li>
-                                            <li><a href="index-4.html">Home 03</a></li>
-                                        </ul> -->
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#">Courses</a>
+                                        <a href="#" style="font-size: 1.5rem;">Courses</a>
                                         <ul class="sub-menu">
                                             <li><a href="#">Premium Courses</a></li>
-                                            <li><a href="#">Free Courses</a></li>
+                                            <li><a href="ShowFreeCourses.php">Free Courses</a></li>
                                         </ul>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#">Forum</a>
+                                        <a href="#" style="font-size: 1.5rem;">Forum</a>
                                         <ul class="sub-menu">
                                             <li><a href="#">Forum</a></li>
                                             <li><a href="#">Private Forum</a></li>
@@ -203,37 +156,48 @@ $nbCourses = countNbFreeCourses();
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#">News</a>
-                                        <!-- <ul class="sub-menu">
-                                            <li><a href="News.html">News</a></li>
-                                           
-                                        </ul> -->
+                                        <a href="#" style="font-size: 1.5rem;">News</a>
+
                                     </li>
 
-                                    <li class="nav-item">
-                                        <a href="contact.html">Contact us</a>
+                                    <div class="col-lg-5 col-md-2 col-sm-3 col-6">
+                                        <div class="right-icon text-right">
+                                            <ul>
+                                                <li><a href="#" id="search"><i class="fa fa-search"
+                                                            style="font-size: 1.5rem;"></i></a></li>
+                                                <li style=""><a href="#" class="right-icon"><i
+                                                            class="fa fa-shopping-bag"
+                                                            style="font-size: 1.5rem;"></i><span>0</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <li class="nav-item text-right">
+                                        <a href="#"><img src="../View/images/feature-user.png" alt="userImage"
+                                                style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="studentMyProfile.php">My Profile</a></li>
+                                            <li><a href="#">My Courses</a></li>
+                                            <li><a href="../Controller/logoutControl.php">Sign out</a></li>
+                                        </ul>
                                     </li>
 
-                                    <li class="nav-item">
-                                        <a href="about.html">About us</a>
-                                    </li>
                                 </ul>
                             </div>
                         </nav> <!-- nav -->
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-3 col-4">
+                    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-4">
                         <div class="right-icon text-right">
                             <ul>
-                                <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i><span>0</span></a></li>
                             </ul>
-                        </div> <!-- right icon -->
-                    </div>
+                        </div>  right icon 
+                    </div> -->
                 </div> <!-- row -->
             </div> <!-- container -->
         </div>
 
     </header>
+
 
     <!--====== HEADER PART ENDS ======-->
 
@@ -260,12 +224,11 @@ $nbCourses = countNbFreeCourses();
             <div class="row">
                 <div class="col-lg-7">
                     <div class="page-banner-cont">
-                        <h2>Our Free Courses</h2>
+                        <h2>Our Premuim Courses</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Free Courses</a></li>
-
+                                <li class="breadcrumb-item"><a href="#">Premuim Courses</a></li>
                             </ol>
                         </nav>
                     </div> <!-- page banner cont -->
@@ -308,7 +271,7 @@ $nbCourses = countNbFreeCourses();
                 <div class="tab-pane fade show active" id="courses-grid" role="tabpanel"
                     aria-labelledby="courses-grid-tab">
                     <div class="row">
-                        <?php foreach($FreecoursesList as $FreeCourse){ ?>
+                        <?php foreach($PaidcoursesList as $PaidCourse){ ?>
                         <div class="col-lg-4 col-md-6">
                             <div class="singel-course mt-30">
                                 <div class="thum">
@@ -329,7 +292,7 @@ $nbCourses = countNbFreeCourses();
                                     </ul>
                                     <span>(20 Reviws)</span> -->
                                     <span href="#">
-                                        <h4><?php echo $FreeCourse['name']; ?>
+                                        <h4><?php echo $PaidCourse['name']; ?>
                                         </h4>
                                     </span>
                                     <div class="course-teacher">
@@ -344,10 +307,10 @@ $nbCourses = countNbFreeCourses();
                                         <div class="admin">
                                             <ul>
                                                 <li><a href="#"><i
-                                                            class="fa fa-user"></i><span><?php echo $FreeCourse['numberOfStudentsRegistered']; ?></span></a>
+                                                            class="fa fa-user"></i><span><?php echo $PaidCourse['numberOfStudentsRegistered']; ?></span></a>
                                                 </li>
                                                 <li><a href="#"><i
-                                                            class="fa fa-heart"></i><span><?php echo $FreeCourse['numberOfLikes']; ?></span></a>
+                                                            class="fa fa-heart"></i><span><?php echo $PaidCourse['numberOfLikes']; ?></span></a>
                                                 </li>
                                             </ul>
                                         </div>
