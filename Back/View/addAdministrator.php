@@ -1,40 +1,31 @@
 <?php
 
-include_once "../Controller/GetUser.php";
 session_start();
 if(!isset($_SESSION['loggedIn']) )
     header('location:../../Front/View/login.html');
 else if($_SESSION['loggedIn'] != true)
     header('location:../../Front/View/login.html');
-else
-    $studentsList = getAllStudents();
-
 ?>
-
 
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EduEasy | Students DataTables</title>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <title>Add a New Administrator</title>
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body>
     <div class="wrapper">
         <!-- ============================NAV BAR BEGINS ====================================== -->
 
@@ -105,7 +96,9 @@ else
                         <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block"> <?php echo $_SESSION['userId'] ?></a>
+                        <a href="#" class="d-block">
+                            <?php echo $_SESSION['userId'] ?>
+                        </a>
                     </div>
                 </div>
                 <!-- SidebarSearch Form -->
@@ -340,49 +333,52 @@ else
                     <center>
                         <!-- <h3 class="card-title">Student DataTable</h3> -->
                         <h3>
-                            <img src="images/favicon.png" alt="EduEasyLogo" style="length: 7vw; width: 7vw">
-                            Students DataTable
+                            <img src="images/favicon.png" alt="EduEasyLogo" style="height: 7vw; width: 7vw">
+                            Adding A New Administrator
                         </h3>
                     </center>
                 </div>
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>User Id</th>
-                                <th>User Name</th>
-                                <th>Email</th>
-                                <th>Registration Date</th>
-                                <th>Number of Courses Registered</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($studentsList as $student){ ?>
-                            <tr>
-                                <td><a href="#"><?php echo $student['userId'] ?></a></td>
-                                <td><?php echo $student['userName'] ?></td>
-                                <!--btn btn-block bg-gradient-primary-->
-                                <td><?php echo $student['email'] ?> <center><a
-                                        href="sendEmail.php?origin=stu&email=<?php echo $student['email'] ?>"><button
-                                            class="btn btn-block btn-outline-primary btn-sm" style="width:9rem;">Send Email</button></a></center>
-                                </td>
-                                <td><?php echo $student['registrationDate']?></td>
-                                <td><?php echo $student['nbCoursesFollowed'] ?></td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>User Id</th>
-                                <th>User Name</th>
-                                <th>Email</th>
-                                <th>Registration Date</th>
-                                <th>Number of Courses Registered</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"> </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post" action="../Controller/AddAdministrator.php">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="userName">User name</label>
+                                    <input type="text" class="form-control" id="userName" placeholder="Enter user Name"
+                                        name="userName">
+                                    <br>
+                                    <span id="error_userName" style="color: red; font-size: 0.75em;"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter email"
+                                        name="email">
+                                    <br>
+                                    <span id="error_email" style="color: red; font-size: 0.75em;"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Password"
+                                        name="password">
+                                    <br>
+                                    <span id="error_password" style="color: red; font-size: 0.75em;"></span>
+                                </div>
+                                <a class="btn btn-primary" id="defaultPasswordButton">Set password as Default</a>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <input type="submit" class="btn btn-primary" value="Add" id="submitButton">
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -404,22 +400,6 @@ else
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <!-- <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0-rc
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved. -->
-    </footer>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-    </div>
-    <!-- ./wrapper -->
-
-    <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -440,26 +420,57 @@ else
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
-    <!-- Page specific script -->
     <script>
-    $(function() {
-        $("#example1").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
+    var defaultPasswordButton = document.getElementById('defaultPasswordButton');
+    var password = document.getElementById('password');
+    var userName = document.getElementById('userName');
+    var submitButton = document.getElementById('submitButton');
+    var error_password = document.getElementById('error_password');
+    var error_email = document.getElementById('error_email');
+    var error_userName = document.getElementById('error_userName');
+    var email = document.getElementById('email');
+    var emailRegex =
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    defaultPasswordButton.addEventListener('click', () => {
+        password.value = 'DefaultPassword';
+    });
+
+    submitButton.addEventListener('click', (event) => {
+        if (userName.value.length == 0 || email.value.length == 0 || password.value.length == 0 )
+            event.preventDefault();
+        if (userName.value.length == 0)
+            error_userName.innerHTML = " Enter a User Name";
+        else {
+            error_userName.innerHTML = ""
+            event.preventDefault();
+        };
+
+        if (password.value.length == 0)
+            error_password.innerHTML = " Enter a Password";
+        else if (password.value.length > 0 && password.value.length < 8)
+            error_password.innerHTML = " Password must have at least 8 characters ";
+        else {
+            error_password.innerHTML = "";
+            event.preventDefault();
+        }
+
+        if (email.value.length == 0)
+            error_email.innerHTML = "Enter an Email address";
+        else if (!emailRegex.test(email.value) && email.value.length > 0)
+            error_email.innerHTML = "Enter a valid email address";
+        else {
+            error_email.innerHTML = "";
+            event.preventDefault();
+        }
+
+        
+
+
+
     });
     </script>
+
 </body>
 
 </html>

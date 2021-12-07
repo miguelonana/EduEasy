@@ -139,7 +139,7 @@ include_once "../config.php";
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.php" class="nav-link">Home</a>
                 </li>
                 <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -473,7 +473,7 @@ include_once "../config.php";
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
 
-                                <a href="#" class="small-box-footer">More info <i
+                                <a href="MoreInfoOnlineUsers.php" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -489,7 +489,7 @@ include_once "../config.php";
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i
+                                <a href="MoreInfoUserRegistration.php" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
