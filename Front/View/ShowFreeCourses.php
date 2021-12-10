@@ -32,6 +32,24 @@ function countNbFreeCourses(){
     return $nbCourses;
 }
 
+function checkParticipation($userId,$courseId){
+
+    $db = config::getConnexion();
+    
+    $Query = "SELECT count(*) AS nb FROM followcourse where userId='$userId' and courseId='$courseId'";
+    
+    try {
+        $res = $db->query($Query);
+        $data = $res->fetch();
+        $nb = $data['nb'];
+        return $nb;
+            
+    } catch (PDOException $e) {
+            $e->getMessage();
+    }
+    
+}
+
 session_start();
 if(!isset($_SESSION['loggedIn']) )
     header('location:login.html');
@@ -142,8 +160,8 @@ else{
                                     <li class="nav-item">
                                         <a href="#" style="font-size: 1.5rem;">Courses</a>
                                         <ul class="sub-menu">
-                                            <li><a href="#">Premium Courses</a></li>
-                                            <li><a href="#">Free Courses</a></li>
+                                            <li><a href="ShowPaidCourses.php">Premium Courses</a></li>
+                                            <li><a href="ShowFreeCourses.php">Free Courses</a></li>
                                         </ul>
                                     </li>
 
@@ -280,50 +298,46 @@ else{
                                         <img src="images/course/cu-1.jpg" alt="Course">
                                     </div>
                                     <div class="price">
-                                        <a href="#"><span>Add</span></a>
+
                                     </div>
                                 </div>
                                 <div class="cont">
-                                    <!-- <ul>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>(20 Reviws)</span> -->
                                     <span href="#">
                                         <h4><?php echo $FreeCourse['name']; ?>
                                         </h4>
                                     </span>
                                     <div class="course-teacher">
-                                        <div class="thum">
-                                            <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a>
-                                        </div>
-                                        <div class="name">
-                                            <a href="#">
-                                                <h6>Makrem Abdelia</h6>
-                                            </a>
-                                        </div>
+                                    <div class="thum">
+                                        <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a><a
+                                            href="#">
+                                            <h6>Makrem Abdelia</h6>
+                                        </a>
+                                    </div>
+                                    <div class="course-teacher">
                                         <div class="admin">
+                                            <a href="../Controller/studentActOnCourses.php?courseNum=<?php echo $FreeCourse['id']?>&action=<?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop"; else echo "Join"; ?> "
+                                                class="main-btn"><?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop Course"; else echo "Join Course"; ?></a>
                                             <ul>
+                                                <center>
                                                 <li><a href="#"><i
                                                             class="fa fa-user"></i><span><?php echo $FreeCourse['numberOfStudentsRegistered']; ?></span></a>
                                                 </li>
                                                 <li><a href="#"><i
                                                             class="fa fa-heart"></i><span><?php echo $FreeCourse['numberOfLikes']; ?></span></a>
                                                 </li>
+                                                </center>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                            </div> <!-- singel course -->
-                        </div>
-                        <?php } ?>
-
+                            </div>
+                        </div> <!-- singel course -->
                     </div>
+                    <?php } ?>
+
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <a href="#" class="back-to-top"><i class="fa fa-angle-up"></i></a>
@@ -425,7 +439,7 @@ else{
                 <div class="row">
                     <div class="col-md-8">
                         <div class="copyright text-md-left text-center pt-15">
-                            <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a> </p>
+                            <!-- <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a> </p> -->
                         </div>
                     </div>
                     <div class="col-md-4">

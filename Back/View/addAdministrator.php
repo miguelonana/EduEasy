@@ -437,36 +437,34 @@ else if($_SESSION['loggedIn'] != true)
     });
 
     submitButton.addEventListener('click', (event) => {
-        if (userName.value.length == 0 || email.value.length == 0 || password.value.length == 0 )
+
+        if (userName.value.length == 0) {
             event.preventDefault();
-        if (userName.value.length == 0)
             error_userName.innerHTML = " Enter a User Name";
-        else {
-            error_userName.innerHTML = ""
-            event.preventDefault();
+        } else {
+            error_userName.innerHTML = "";
         };
 
-        if (password.value.length == 0)
+        if (password.value.length == 0) {
+            event.preventDefault();
             error_password.innerHTML = " Enter a Password";
-        else if (password.value.length > 0 && password.value.length < 8)
+        } else if (password.value.length > 0 && password.value.length < 8) {
+            event.preventDefault();
             error_password.innerHTML = " Password must have at least 8 characters ";
-        else {
+        } else {
             error_password.innerHTML = "";
-            event.preventDefault();
         }
 
-        if (email.value.length == 0)
+        if (email.value.length == 0) {
+            event.preventDefault();
             error_email.innerHTML = "Enter an Email address";
-        else if (!emailRegex.test(email.value) && email.value.length > 0)
-            error_email.innerHTML = "Enter a valid email address";
-        else {
-            error_email.innerHTML = "";
+        } else if (!emailRegex.test(email.value) && email.value.length > 0) {
             event.preventDefault();
+            error_email.innerHTML = "Enter a valid email address";
+        } else {
+            error_email.innerHTML = "";
+
         }
-
-        
-
-
 
     });
     </script>

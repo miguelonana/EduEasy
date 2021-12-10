@@ -362,9 +362,15 @@ else
                         <tbody>
                             <?php foreach($teachersList as $teacher){ ?>
                             <tr>
-                                <td><a href="TeacherDetailed.php<?php $_SESSION['data'] = $teacher['userId'] ?>"><?php echo $teacher['userId'] ?></a></td>
+                                <td><a
+                                        href="TeacherDetailed.php?teacher=<?php echo $teacher['userId'] ?>"><?php echo $teacher['userId'] ?></a>
+                                </td>
                                 <td><?php echo $teacher['userName'] ?></td>
-                                <td><?php echo $teacher['email'] ?> <center><a href="sendEmail.php?origin=tea&email=<?php echo $teacher['email'] ?>" style="width:9rem;"><button class="btn btn-block btn-outline-primary btn-sm">Send Email</button></a></center></td>
+                                <td><?php echo $teacher['email'] ?> <center><a
+                                            href="sendEmail.php?origin=tea&email=<?php echo $teacher['email'] ?>"><button
+                                                class="btn btn-block btn-outline-primary btn-sm"
+                                                style="width:9rem;">Send Email</button></a></center>
+                                </td>
                                 <td><?php echo $teacher['registrationDate']?></td>
                                 <td><?php echo $teacher['nbCoursesCreated'] ?></td>
                             </tr>

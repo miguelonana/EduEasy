@@ -341,7 +341,7 @@ else
                         <!-- <h3 class="card-title">Student DataTable</h3> -->
                         <h3>
                             <img src="images/favicon.png" alt="EduEasyLogo" style="length: 7vw; width: 7vw">
-                            Students DataTable
+                            Administrators DataTable
                         </h3>
                     </center>
                 </div>
@@ -365,11 +365,13 @@ else
                                 <td><?php echo $administrator['userName'] ?></td>
                                 <!--btn btn-block bg-gradient-primary-->
                                 <td><?php echo $administrator['email'] ?> <center><a
-                                        href="sendEmail.php?origin=adm&email=<?php echo $administrator['email'] ?>"><button
-                                            class="btn btn-block btn-outline-primary btn-sm" style="width:9rem;">Send Email</button></a></center>
+                                            href="sendEmail.php?origin=adm&email=<?php echo $administrator['email'] ?>"><button
+                                                class="btn btn-block btn-outline-primary btn-sm"
+                                                style="width:9rem;">Send Email</button></a></center>
                                 </td>
                                 <td><?php echo $administrator['registrationDate']?></td>
-                                <td><a href="<?php $_SESSION['data']= $administrator['userId'];?>../Controller/DeleteAdministrator.php" class="btn btn-danger">Delete</a></td>
+                                <td><a href="<?php $_SESSION['data']= $administrator['userId'];?>../Controller/DeleteAdministrator.php"
+                                        class="btn btn-block btn-outline-danger btn-sm">Delete</a></td>
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -384,7 +386,8 @@ else
                         </tfoot>
                     </table>
                     <br>
-                    <a href="addAdministrator.php" class="btn btn-block btn-outline-primary btn-sm" style="width:9rem;"><i class="fas fa-plus"></i>  Add Administrator</a>
+                    <a href="addAdministrator.php" class="btn btn-block btn-outline-primary btn-sm"
+                        style="width:9rem;"><i class="fas fa-plus"></i> Add Administrator</a>
                 </div>
                 <!-- /.card-body -->
             </div>

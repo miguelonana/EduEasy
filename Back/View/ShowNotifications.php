@@ -1,29 +1,12 @@
 <?php
-
-include_once "../Controller/GetUser.php";
-
-
-function checkTeacher($userId){
-    $db = config::getconnexion();
-
-    try {
-        $query = $db->query(
-            "SELECT * FROM teacher where userId = '$userId' "
-        );
-        return $query->fetch();
-
-    } catch (PDOException $e) {
-        $e->getMessage();
-    }
-}
-
-function getCourses($userId){
+include_once "../config.php";
+function getAllNotifications(){
     
         $db = config::getconnexion();
 
         try {
             $query = $db->query(
-            "SELECT * FROM courses where teacher = '$userId'"
+            "SELECT * FROM notification"
             );
             return $query;
 
@@ -32,16 +15,29 @@ function getCourses($userId){
         }
 }
 
+function getUnreadNotifications(){
+    
+    $db = config::getconnexion();
+
+    try {
+        $query = $db->query(
+        "SELECT * FROM notification"
+        );
+        return $query;
+
+    } catch (PDOException $e) {
+        $e->getMessage();
+    }
+}
+
 session_start();
 if(!isset($_SESSION['loggedIn']) )
     header('location:../../Front/View/login.html');
 else if($_SESSION['loggedIn'] != true)
     header('location:../../Front/View/login.html');
 else{
-    // $userId=$_SESSION['data'];
-    $userId = $_GET['teacher'];
-    $teacher = checkTeacher($userId);
-    $cousesCreated = getCourses($userId);
+    $notificationList = getAllNotifications();
+    
 }
 ?>
 
@@ -373,102 +369,58 @@ else{
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
 
-            <div class="card" style="margin: 2rem;">
+            <div class="card" style="margin: 0.5rem;">
                 <div class="card-header">
                     <center>
                         <!-- <h3 class="card-title">Student DataTable</h3> -->
                         <h3>
                             <img src="images/favicon.png" alt="EduEasyLogo" style="length: 7vw; width: 7vw">
-                            Teacher Detailed View
+                            Notifications
                         </h3>
                     </center>
                 </div>
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <!-- <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="/dist/img/user4-128x128.jpg"
-                                    alt="User profile picture">
-                            </div>
+                <!-- /.content-wrapper -->
+                <!-- Control Sidebar -->
 
-                            <h3 class="profile-username text-center">Nina Mcintire</h3>
-
-                            <p class="text-muted text-center">Software Engineer</p> -->
-
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>UserId</b> <span class="float-right"><?php echo $teacher['userId']?></span>
-                            </li>
-                            <li class="list-group-item">
-                                <b>User Name</b> <span class="float-right"><?php echo $teacher['userName']?></span>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Number of courses Created</b> <span
-                                    class="float-right"><?php echo $teacher['nbCoursesCreated']?></span>
-                            </li>
-                        </ul>
-
-                        <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
-                    </div>
-                    <!-- /.card-body -->
+                <div class="table-responsive mailbox-messages" style="margin-top:3rem;">
+                    <table class="table table-hover table-striped">
+                        <tr>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Date Received</th>
+                            <th>Actions</th>
+                        </tr>
+                        <?php foreach($notificationList as $notification){ ?>
+                        <tr>
+                            <td class="mailbox-subject"><a><?php echo $notification['type']?></a></td>
+                            <td class="mailbox-name"><?php echo $notification['message']?></td>
+                            <td class="mailbox-attachment">
+                                <?php 
+                                if($notification['status']=='unread')
+                                    echo '<span class="badge bg-danger">Unread</span>';
+                                else if($notification['status']=='read')
+                                    echo '<span class="badge bg-success">Read</span>';
+                            ?>
+                            </td>
+                            <td class="mailbox-date"><?php echo $notification['dateReceived']?></td>
+                            <td><a href="../Controller/updateNotificationStatus.php?number=<?php echo $notification['number']?>&status=<?php echo $notification['status']?>"
+                                    class="btn btn-block btn-outline-<?php if($notification['status']=='unread')echo "success"; else if($notification['status']=='read')echo "primary";?> btn-sm"
+                                    style="width:7rem;"><?php if($notification['status']=='unread') echo "Mark as Read"; else if($notification['status']=='read')echo "Mark as Unread"?></a>
+                                <a href="../Controller/updateNotificationStatus.php?number=<?php echo $notification['number']?>"
+                                    class="btn btn-block btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        <?php }?>
+                    </table>
                 </div>
-
-            </div>
-
-            <section class="content" style="margin: 2rem;">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Courses Created</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body" style="margin-bottom: 1rem;">
-                        <div>
-                            <ul class="list-group list-group-unbordered mb-3">
-                                <?php foreach($cousesCreated as $course){ ?>
-                                <li style="margin-top:1rem;margin-bottom:1rem;">
-                                    <ul>
-                                        <li class="list-group-item">
-                                            <b>Course Number:</b> <span
-                                                class="float-right"><?php echo $course['id']?></span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Course Name:</b> <span
-                                                class="float-right"><?php echo $course['name']?></span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Category:</b> <span
-                                                class="float-right"><?php echo $course['category']?></span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Status:</b> <span class="float-right"><?php 
-                                        if($course['free']==1)
-                                            echo '<span class="badge bg-success">FREE</span>';
-                                        else if($course['free']==0)
-                                            echo '<span class="badge bg-danger">Paid</span>';
-                                        ?>
-                                            </span>
-                                    </ul>
-
-                                </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </section>
-
-
-            <!-- /.content-wrapper -->
-            <!-- Control Sidebar -->
-            <aside class="control-sidebar control-sidebar-dark">
                 <!-- Control sidebar content goes here -->
-            </aside>
-            <!-- /.control-sidebar -->
+
+                <!-- /.control-sidebar -->
+            </div>
+            <!-- /.col -->
         </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
+        <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
     </section>

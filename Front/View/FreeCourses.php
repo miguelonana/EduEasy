@@ -32,6 +32,8 @@ function countNbFreeCourses(){
     return $nbCourses;
 }
 
+
+
 $FreecoursesList = getFreeCourses();
 $nbCourses = countNbFreeCourses();
 
@@ -316,18 +318,10 @@ $nbCourses = countNbFreeCourses();
                                         <img src="images/course/cu-1.jpg" alt="Course">
                                     </div>
                                     <div class="price">
-                                        <a href="#"><span>Add</span></a>
+                                        <a href="login.html"><span>Add</span></a>
                                     </div>
                                 </div>
                                 <div class="cont">
-                                    <!-- <ul>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>(20 Reviws)</span> -->
                                     <span href="#">
                                         <h4><?php echo $FreeCourse['name']; ?>
                                         </h4>

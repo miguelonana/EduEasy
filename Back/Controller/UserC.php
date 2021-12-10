@@ -89,10 +89,12 @@ class StudentC{
             $query->execute([
                 'userId' => $userId
             ]);
-        } catch (\Throwable $th) {
+        } catch (PDOException $e) {
             $e->getMessage();
         }
     }
+
+    
 }
 
 class TeacherC{
@@ -178,7 +180,7 @@ class TeacherC{
             $query->execute([
                 'userId' => $userId
             ]);
-        } catch (\Throwable $th) {
+        } catch (PDOException $e) {
             $e->getMessage();
         }
     }
@@ -217,7 +219,7 @@ class AdministratorC{
             $query->execute([
                 'userId' => $userId
             ]);
-        } catch (\Throwable $th) {
+        } catch (PDOException $e) {
             $e->getMessage();
         }
     }

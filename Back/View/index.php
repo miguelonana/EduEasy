@@ -64,6 +64,22 @@ include_once "../config.php";
         return $nbCourses;
     }
 
+    function getNumberUnreadNotifications(){
+        $db = config::getConnexion();
+        
+        $Query = "SELECT count(*) AS nb FROM notification where status='unread'";//query to get number of courses in the table
+
+        try {
+            $res = $db->query($Query);
+            $data = $res->fetch();
+            $nbCourses = $data['nb'];
+            
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+        return $nbCourses;
+    }
+
     $searchADM = "ADM";
     session_start();
     if(!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] != true || !preg_match("/{$searchADM}/i", $_SESSION['userId'])){    
@@ -73,6 +89,7 @@ include_once "../config.php";
         $nbUsers = getNbUsers();
         $nbOnlineUsers = getNbOnlineUsers();
         $nbCourses = getNumberOfCourses();
+        $nbUnreadNotifications = getNumberUnreadNotifications();
     }
 ?>
 
@@ -420,7 +437,6 @@ include_once "../config.php";
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -430,23 +446,25 @@ include_once "../config.php";
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
+                                <li class="breadcrumb-item active">Dashboard</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
-                <div class="col-md-3 col-sm-6 col-12 float-sm-right">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                <a href="showNotifications.php" style="color:black;">
+                    <div class="col-md-3 col-sm-6 col-12 float-sm-right">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
 
-                        <div class="info-box-content">
-                            <span class="info-box-text">New Notifications</span>
-                            <span class="info-box-number">1,410</span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">New Notifications</span>
+                                <span class="info-box-number"><?php echo $nbUnreadNotifications; ?></span>
+                            </div>
+                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box-content -->
+                        <!-- /.info-box -->
                     </div>
-                    <!-- /.info-box -->
-                </div>
+                </a>
             </div>
             <!-- /.content-header -->
 

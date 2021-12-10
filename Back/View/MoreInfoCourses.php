@@ -441,7 +441,8 @@ include_once "../Controller/GetUser.php";
                             <div>
                                 <form action="" method="get">
                                     <label for="">Select a Teacher:</label>
-                                    <select name="teacher" id="teacher" class="form-control" placeholder="Select a Teacher">
+                                    <select name="teacher" id="teacher" class="form-control"
+                                        placeholder="Select a Teacher">
                                         <option value=""></option>
                                         <?php foreach($teachersList as $teacher){ ?>
                                         <option value="<?php echo $teacher['userId'];?>">
@@ -449,7 +450,8 @@ include_once "../Controller/GetUser.php";
                                         </option>
                                         <?php } ?>
                                     </select>
-                                    <input type="submit" value="search" class="btn btn-primary" style="margin-top:1rem;">
+                                    <input type="submit" value="search" class="btn btn-primary"
+                                        style="margin-top:1rem;">
                                 </form>
                                 <br>
                             </div>
@@ -467,7 +469,9 @@ include_once "../Controller/GetUser.php";
                                                         <tr>
                                                             <th>Course Id</th>
                                                             <th>Course Name</th>
+                                                            <th>Category</th>
                                                             <th>Number of student Registered</th>
+                                                            <th>status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -475,7 +479,14 @@ include_once "../Controller/GetUser.php";
                                                         <tr>
                                                             <td><?php echo $course['id']?></td>
                                                             <td><?php echo $course['name']?></td>
+                                                            <td><?php echo $course['category']?></td>
                                                             <td><?php echo $course['numberOfStudentsRegistered']?></td>
+                                                            <td><?php
+                                                            if($course['free']==1)
+                                                                echo '<span class="badge bg-success">Free</span>';
+                                                                else if($course['free']==0)
+                                                                echo '<span class="badge bg-danger">Paid</span>';
+                                                            ?></td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
