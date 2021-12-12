@@ -99,10 +99,24 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="NewsModule/admin/categories.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
-                                    test News</p>
+                                    Categories</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="NewsModule/admin/new-article.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Publish Article</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="NewsModule/admin/articles.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Article</p>
                             </a>
                         </li>
                     </ul>
@@ -154,7 +168,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-user fa-lg fa-fw"></i>
                         <p>
-                            users
+                            Users
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
