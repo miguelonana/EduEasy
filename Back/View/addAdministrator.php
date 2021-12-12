@@ -385,20 +385,15 @@ else if($_SESSION['loggedIn'] != true)
             <!-- /.card -->
         </div>
         <!-- /.content-wrapper -->
+        <footer class="main-footer">
+        </footer>
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
     </div>
-    <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-    </div>
+
     <!-- /.content-wrapper -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -420,6 +415,14 @@ else if($_SESSION['loggedIn'] != true)
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
+    <!-- -------------------------------------------------- -->
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- -------------------------------------------------------- -->
     <script>
     var defaultPasswordButton = document.getElementById('defaultPasswordButton');
     var password = document.getElementById('password');

@@ -2,12 +2,12 @@
 
 include_once "../config.php";
 
-function getFreeCourses(){
+function getRegisteredCourses(){
     $db = config::getconnexion();
 
     try {
         $query = $db->query(
-        "SELECT courses.id, courses.name, courses.category, courses.teacher, courses.teacher_image, courses.image, courses.numberOfStudentsRegistered, courses.numberOfLikes,teacher.userName FROM courses,teacher WHERE courses.free=1 and teacher.userId=courses.teacher"
+        "select courses.id,courses.name,courses.category,courses.teacher,courses.teacher_image,courses.free,courses.image,courses.numberOfStudentsRegistered,courses.numberOfLikes from courses,followcourse where courses.id=followcourse.courseId and followcourse.userId='2021STU0'; "
         );
         return $query;
 
@@ -16,27 +16,52 @@ function getFreeCourses(){
         }
 }
 
-function countNbFreeCourses(){
+
+function checkParticipation($userId,$courseId){
+
     $db = config::getConnexion();
     
-    $Query = "SELECT count(*) AS nb FROM courses where free=1";
-
+    $Query = "SELECT count(*) AS nb FROM followcourse where userId='$userId' and courseId='$courseId'";
+    
     try {
         $res = $db->query($Query);
         $data = $res->fetch();
-        $nbCourses = $data['nb'];
-        
+        $nb = $data['nb'];
+        return $nb;
+            
     } catch (PDOException $e) {
-        $e->getMessage();
+            $e->getMessage();
     }
-    return $nbCourses;
+    
+}
+
+function checkLike($userId,$courseId){
+
+    $db = config::getConnexion();
+    
+    $Query = "SELECT count(*) AS nb FROM likecourse where userId='$userId' and courseId='$courseId'";
+    
+    try {
+        $res = $db->query($Query);
+        $data = $res->fetch();
+        $nb = $data['nb'];
+        return $nb;
+            
+    } catch (PDOException $e) {
+            $e->getMessage();
+    }
+    
 }
 
 
-
-$FreecoursesList = getFreeCourses();
-$nbCourses = countNbFreeCourses();
-
+session_start();
+if(!isset($_SESSION['loggedIn']) )
+    header('location:login.html');
+else if($_SESSION['loggedIn'] != true)
+    header('location:login.html');
+else{
+    $coursesList = getRegisteredCourses();
+}
 ?>
 
 
@@ -111,60 +136,7 @@ $nbCourses = countNbFreeCourses();
 
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part">
-
-        <div class="header-top d-none d-lg-block">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="header-contact text-lg-left text-center">
-                            <ul>
-                                <li><img src="images/all-icon/map.png" alt="icon"><span>1140 Rue Amir Abedelkader,
-                                        Tunis</span></li>
-                                <li><img src="images/all-icon/email.png" alt="icon"><span>EduEasyInfo@gmail.com</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="header-opening-time text-lg-right text-center">
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header top -->
-
-        <div class="header-logo-support pt-30 pb-30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-1 col-md-1">
-                        <div class="logo">
-                            <a href="#">
-                                <img src="images/logo.png" alt="Logo">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8">
-                        <div class="support-button float-right d-none d-md-block">
-                            <div class="support float-left">
-                                <div class="icon">
-                                    <img src="images/all-icon/support.png" alt="icon">
-                                </div>
-                                <div class="cont">
-                                    <p>Need Help? call us free</p>
-                                    <span>+2165285125499</span>
-                                </div>
-                            </div>
-                            <div class="button float-left">
-                                <a href="login.html" class="main-btn">Login</a>
-                                <a href="registration.html" class="main-btn">Register</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header logo support -->
-
+    <header id="header-part" style="padding-top: 1rem;">
         <div class="navigation">
             <div class="container">
                 <div class="row">
@@ -178,21 +150,26 @@ $nbCourses = countNbFreeCourses();
                                 <span class="icon-bar"></span>
                             </button>
 
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent"
+                                style="margin-left: 10rem;">
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-6">
+                                    <div class="logo">
+                                        <a href="#">
+                                            <img src="images/logo.png" alt="Logo">
+                                        </a>
+                                    </div>
+                                </div>
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item">
-                                        <a class="active" href="index.html">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#">Courses</a>
+                                        <a href="#" style="font-size: 1.5rem;">Courses</a>
                                         <ul class="sub-menu">
-                                            <li><a href="PaidCourses.php">Premium Courses</a></li>
-                                            <li><a href="FreeCourses.php">Free Courses</a></li>
+                                            <li><a href="ShowPaidCourses.php">Premium Courses</a></li>
+                                            <li><a href="ShowFreeCourses.php">Free Courses</a></li>
                                         </ul>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#">Forum</a>
+                                        <a href="#" style="font-size: 1.5rem;">Forum</a>
                                         <ul class="sub-menu">
                                             <li><a href="#">Forum</a></li>
                                             <li><a href="#">Private Forum</a></li>
@@ -200,28 +177,50 @@ $nbCourses = countNbFreeCourses();
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#">News</a>
+                                        <a href="#" style="font-size: 1.5rem;">News</a>
+
                                     </li>
+
+                                    <div class="col-lg-5 col-md-2 col-sm-3 col-6">
+                                        <div class="right-icon text-right">
+                                            <ul>
+                                                <li><a href="#" id="search"><i class="fa fa-search"
+                                                            style="font-size: 1.5rem;"></i></a></li>
+                                                <li style=""><a href="#" class="right-icon"><i
+                                                            class="fa fa-shopping-bag"
+                                                            style="font-size: 1.5rem;"></i><span>0</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <li class="nav-item text-right">
+                                        <a href="#"><img src="../View/images/feature-user.png" alt="userImage"
+                                                style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="studentMyProfile.php">My Profile</a></li>
+                                            <li><a href="StudentRegisteredCourses.php">My Courses</a></li>
+                                            <li><a href="../Controller/logoutControl.php">Sign out</a></li>
+                                        </ul>
+                                    </li>
+
                                 </ul>
                             </div>
                         </nav> <!-- nav -->
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-3 col-4">
+                    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-4">
                         <div class="right-icon text-right">
                             <ul>
-                                <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i><span>0</span></a></li>
                             </ul>
-                        </div> <!-- right icon -->
-                    </div>
+                        </div>  right icon 
+                    </div> -->
                 </div> <!-- row -->
             </div> <!-- container -->
         </div>
 
     </header>
 
-    <!--====== HEADER PART ENDS ======-->
 
+    <!--====== HEADER PART ENDS ======-->
 
     <!--====== SEARCH BOX PART START ======-->
 
@@ -246,11 +245,11 @@ $nbCourses = countNbFreeCourses();
             <div class="row">
                 <div class="col-lg-7">
                     <div class="page-banner-cont">
-                        <h2>Our Free Courses</h2>
+                        <h2>My Courses</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Free Courses</a></li>
+                                <li class="breadcrumb-item"><a href="#">My Courses</a></li>
 
                             </ol>
                         </nav>
@@ -278,7 +277,7 @@ $nbCourses = countNbFreeCourses();
                                 <a id="courses-list-tab" data-toggle="tab" href="#courses-list" role="tab"
                                     aria-controls="courses-list" aria-selected="false"><i class="fa fa-th-list"></i></a>
                             </li>
-                            <li class="nav-item">Showing <?php echo $nbCourses; ?> Results</li>
+                            <!-- <li class="nav-item">Showing <?php echo $nbCourses; ?> Results</li> -->
                         </ul> <!-- nav -->
 
                         <div class="courses-search float-right">
@@ -294,7 +293,7 @@ $nbCourses = countNbFreeCourses();
                 <div class="tab-pane fade show active" id="courses-grid" role="tabpanel"
                     aria-labelledby="courses-grid-tab">
                     <div class="row">
-                        <?php foreach($FreecoursesList as $FreeCourse){ ?>
+                        <?php foreach($coursesList as $Course){ ?>
                         <div class="col-lg-4 col-md-6">
                             <div class="singel-course mt-30">
                                 <div class="thum">
@@ -307,26 +306,29 @@ $nbCourses = countNbFreeCourses();
                                 </div>
                                 <div class="cont">
                                     <span href="#">
-                                        <h4><?php echo $FreeCourse['name']; ?>
+                                        <h4><?php echo $Course['name']; ?>
                                         </h4>
                                     </span>
                                     <div class="course-teacher">
                                         <div class="thum">
                                             <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a><a
                                                 href="#">
-                                                <h6><?php echo $FreeCourse['userName']; ?></h6>
+                                                <h6>Makrem Abdelia</h6>
                                             </a>
                                         </div>
                                         <div class="course-teacher">
                                             <div class="admin">
-                                                <a href="login.html" class="main-btn">Join Course</a>
+                                                <a href="../Controller/studentActOnCourses.php?courseNum=<?php echo $Course['id']?>&action=<?php if(checkParticipation($_SESSION['userId'],$Course['id'])>0)echo "Drop"; else echo "Join"; ?> "
+                                                    class="main-btn"><?php if(checkParticipation($_SESSION['userId'],$Course['id'])>0)echo "Drop Course"; else echo "Join Course"; ?></a>
                                                 <ul>
                                                     <center>
-                                                        <li><a href="#"><i
-                                                                    class="fa fa-user"></i><span><?php echo $FreeCourse['numberOfStudentsRegistered']; ?></span></a>
+                                                        <li><a><i
+                                                                    class="fa fa-user"></i><span><?php echo $Course['numberOfStudentsRegistered']; ?></span></a>
                                                         </li>
-                                                        <li><a href="#"><i
-                                                                    class="fa fa-heart"></i><span><?php echo $FreeCourse['numberOfLikes']; ?></span></a>
+                                                        <li><a
+                                                                href="../Controller/studentActOnCourses.php?courseNum=<?php echo $Course['id']?>&action=<?php if(checkLike($_SESSION['userId'],$Course['id'])>0)echo "Unlike"; else echo "Like"; ?> "><i
+                                                                    class="fa fa-heart"
+                                                                    <?php if(checkLike($_SESSION['userId'],$Course['id'])>0) echo 'style="color:red;"';?>></i><span><?php echo $Course['numberOfLikes']; ?></span></a>
                                                         </li>
                                                     </center>
                                                 </ul>

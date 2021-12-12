@@ -7,7 +7,7 @@ function getFreeCourses(){
 
     try {
         $query = $db->query(
-        "SELECT * FROM courses where free=1"
+            "SELECT courses.id, courses.name, courses.category, courses.teacher, courses.teacher_image, courses.image, courses.numberOfStudentsRegistered, courses.numberOfLikes,teacher.userName FROM courses,teacher WHERE courses.free=1 and teacher.userId=courses.teacher"
         );
         return $query;
 
@@ -49,6 +49,25 @@ function checkParticipation($userId,$courseId){
     }
     
 }
+
+function checkLike($userId,$courseId){
+
+    $db = config::getConnexion();
+    
+    $Query = "SELECT count(*) AS nb FROM likecourse where userId='$userId' and courseId='$courseId'";
+    
+    try {
+        $res = $db->query($Query);
+        $data = $res->fetch();
+        $nb = $data['nb'];
+        return $nb;
+            
+    } catch (PDOException $e) {
+            $e->getMessage();
+    }
+    
+}
+
 
 session_start();
 if(!isset($_SESSION['loggedIn']) )
@@ -195,7 +214,7 @@ else{
                                                 style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
                                         <ul class="sub-menu">
                                             <li><a href="studentMyProfile.php">My Profile</a></li>
-                                            <li><a href="#">My Courses</a></li>
+                                            <li><a href="StudentRegisteredCourses.php">My Courses</a></li>
                                             <li><a href="../Controller/logoutControl.php">Sign out</a></li>
                                         </ul>
                                     </li>
@@ -307,37 +326,39 @@ else{
                                         </h4>
                                     </span>
                                     <div class="course-teacher">
-                                    <div class="thum">
-                                        <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a><a
-                                            href="#">
-                                            <h6>Makrem Abdelia</h6>
-                                        </a>
-                                    </div>
-                                    <div class="course-teacher">
-                                        <div class="admin">
-                                            <a href="../Controller/studentActOnCourses.php?courseNum=<?php echo $FreeCourse['id']?>&action=<?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop"; else echo "Join"; ?> "
-                                                class="main-btn"><?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop Course"; else echo "Join Course"; ?></a>
-                                            <ul>
-                                                <center>
-                                                <li><a href="#"><i
-                                                            class="fa fa-user"></i><span><?php echo $FreeCourse['numberOfStudentsRegistered']; ?></span></a>
-                                                </li>
-                                                <li><a href="#"><i
-                                                            class="fa fa-heart"></i><span><?php echo $FreeCourse['numberOfLikes']; ?></span></a>
-                                                </li>
-                                                </center>
-                                            </ul>
+                                        <div class="thum">
+                                            <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a><a
+                                                href="#">
+                                                <h6><?php echo $FreeCourse['userName']; ?></h6>
+                                            </a>
+                                        </div>
+                                        <div class="course-teacher">
+                                            <div class="admin">
+                                                <a href="../Controller/studentActOnCourses.php?courseNum=<?php echo $FreeCourse['id']?>&action=<?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop"; else echo "Join"; ?> "
+                                                    class="main-btn"><?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop Course"; else echo "Join Course"; ?></a>
+                                                <ul>
+                                                    <center>
+                                                        <li><a><i
+                                                                    class="fa fa-user"></i><span><?php echo $FreeCourse['numberOfStudentsRegistered']; ?></span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="../Controller/studentActOnCourses.php?courseNum=<?php echo $FreeCourse['id']?>&action=<?php if(checkLike($_SESSION['userId'],$FreeCourse['id'])>0)echo "Unlike"; else echo "Like"; ?> "><i
+                                                                    class="fa fa-heart"
+                                                                    <?php if(checkLike($_SESSION['userId'],$FreeCourse['id'])>0) echo 'style="color:red;"';?>></i><span><?php echo $FreeCourse['numberOfLikes']; ?></span></a>
+                                                        </li>
+                                                    </center>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> <!-- singel course -->
-                    </div>
-                    <?php } ?>
+                            </div> <!-- singel course -->
+                        </div>
+                        <?php } ?>
 
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
     <a href="#" class="back-to-top"><i class="fa fa-angle-up"></i></a>
@@ -371,15 +392,9 @@ else{
                             </div>
                             <ul>
                                 <li><a href="index.html"><i class="fa fa-angle-right"></i>Home</a></li>
-                                <li><a href="about.html"><i class="fa fa-angle-right"></i>About us</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Courses</a></li>
                                 <li><a href="#"><i class="fa fa-angle-right"></i>News</a></li>
-                            </ul>
-                            <ul>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Gallery</a></li>
-                                <li><a href="teachers.html"><i class="fa fa-angle-right"></i>Teachers</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Support</a></li>
-                                <li><a href="contact.html"><i class="fa fa-angle-right"></i>Contact</a></li>
+                                <li><a href="PaidCourses.php"><i class="fa fa-angle-right"></i>Premuim Courses</a></li>
+                                <li><a href="FreeCourses.php"><i class="fa fa-angle-right"></i>Free Courses</a></li>
                             </ul>
                         </div> <!-- footer link -->
                     </div>
@@ -389,11 +404,8 @@ else{
                                 <h6>Support</h6>
                             </div>
                             <ul>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>FAQS</a></li>
                                 <li><a href="#"><i class="fa fa-angle-right"></i>Privacy</a></li>
                                 <li><a href="#"><i class="fa fa-angle-right"></i>Policy</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Support</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Documentation</a></li>
                             </ul>
                         </div> <!-- support -->
                     </div>
@@ -408,7 +420,7 @@ else{
                                         <i class="fa fa-home"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>143 castle road 517 district, kiyev port south Canada</p>
+                                        <p>1140 Rue Amir Abedelkader, Tunis</p>
                                     </div>
                                 </li>
                                 <li>
@@ -424,7 +436,7 @@ else{
                                         <i class="fa fa-envelope-o"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>info@yourmail.com</p>
+                                        <p>EduEasyinfo@gmail.com</p>
                                     </div>
                                 </li>
                             </ul>

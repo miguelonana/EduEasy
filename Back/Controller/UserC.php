@@ -2,7 +2,40 @@
 
 include_once '../config.php';
 include_once '../Model/User.php';
- 
+
+
+function notifyAdministrator($type,$userName,$userId,$userType){
+    $db = config::getConnexion();
+    $date = date('y-m-d-H-i-s');
+    
+    if($type=='registration')
+        $message = "New User Registration. ";
+    else if($type=='delatedAccount')
+        $message = "User Account Delated. ";
+    
+    $message.=" ".$userType.", ".$userName." with User Id: ".$userId;
+    if($type=='registration')
+        $message .= " has registered to EduEasy.";
+    else if($type=='delatedAccount')
+        $message .= " has deleted his EduEasy Account.";
+        
+        try {
+            $query = $db->prepare(
+                'INSERT INTO notification (number,type,message,dateReceived) 
+                    VALUES (:number,:type,:message,:dateReceived) '
+            );
+            $query->execute([
+                'number' => 0,
+                'type' => $type,
+                'message' => $message,
+                'dateReceived' => $date
+            ]);
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+}
+
+
 
 class StudentC{
 
@@ -107,7 +140,7 @@ class TeacherC{
             $query = $db->prepare(
                 'INSERT INTO teacher (userId,email,userName,password,registrationDate) 
                     VALUES (:userId,:email,:userName,:password,:registrationDate) '
-            );// INSERT INTO 'nom_de_la_table'
+            );
             $query->execute([
                 'userId' => $newTeacher->getUserId(),
                 'email' => $newTeacher->getEmail(),
@@ -275,11 +308,5 @@ class AdministratorC{
     }
 
 }
-
-
-// $crytedPassword = password_hash('qwertyuiop',PASSWORD_DEFAULT);
-//     $control = new AdministratorC();
-//     $newTeacher = new Administrator('admin','miguelstephane.onana@esprit.tn',$crytedPassword,'Administrator');
-//     $control->addAdministrator($newTeacher);
 
 ?>

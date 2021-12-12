@@ -36,81 +36,86 @@ function removeCoursesFromMyCourses($userId,$courseId){
         }
 }
 
-function updateNumberOfparticipants($courseId,$action){
+function getCourse($courseId){
     $db = config::getconnexion();
-    $newNumber=0;
-    $actualNbofParticipants=0;
-    try {
-        $query = $db->query(
-        "SELECT * FROM courses where courseId='$courseId'"
-        );
-        echo $actualNbofParticipants;
 
-    } catch (PDOException $e) {
+        try {
+            $query = $db->query(
+            "SELECT * FROM courses where id='$courseId'"
+            );
+            return $query->fetch();
+
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+}
+
+function updateNumberOfParticipants($courseId,$action){
+    $course = getCourse($courseId);
+    if($action=="increment")
+        $course['numberOfStudentsRegistered'] = $course['numberOfStudentsRegistered']+1;
+    else if($action=="decrement")
+        $course['numberOfStudentsRegistered'] = $course['numberOfStudentsRegistered']-1;
+        
+        $db = config::getconnexion();
+    try{
+        $query = $db->prepare(
+            'UPDATE courses SET numberOfStudentsRegistered= :numberOfStudentsRegistered where id = :id'
+        );
+        $query = $query->execute([
+            'numberOfStudentsRegistered' => $course['numberOfStudentsRegistered'],
+            'id' => $courseId
+        ]);
+    }catch(PDOException $e){
         $e->getMessage();
     }
 
-        if($action == "increment"){
-            $newNumber = $actualNbofParticipants+1;
-        }
-        else if($action == "decrement"){
-            $newNumber = $actualNbofParticipants-1;
-        }
-
-        try{
-            $query2 = $db->prepare(
-                'UPDATE courses SET nbOfStudentsRegistered= :nbOfStudentsRegistered where courseId = :courseId'
-            );
-            $query2 = $query2->execute([
-                'nbOfStudentsRegistered' => $newNumber,
-                'courseId' => $courseId
-            ]);
-        }catch(PDOException $e){
-            $e->getMessage();
-        }
 }
 
 function updateNumberOfLikes($courseId,$action){
-    $db = config::getconnexion();
-    $newNumber=0;
-    $actualNb=0;
-    try {
-        $query = $db->query(
-        "SELECT * FROM courses where courseId='$courseId'"
+    $course = getCourse($courseId);
+    if($action=="increment")
+        $course['numberOfLikes'] = $course['numberOfLikes']+1;
+    else if($action=="decrement")
+        $course['numberOfLikes'] = $course['numberOfLikes']-1;
+        
+        $db = config::getconnexion();
+    try{
+        $query = $db->prepare(
+            'UPDATE courses SET numberOfLikes= :numberOfLikes where id = :id'
         );
-        $actualNb = $query['numberOfLikes'];
-        $newNumber = $actualNb+1;
-
-    } catch (PDOException $e) {
+        $query = $query->execute([
+            'numberOfLikes' => $course['numberOfLikes'],
+            'id' => $courseId
+        ]);
+    }catch(PDOException $e){
         $e->getMessage();
     }
-
-        if($action == "increment"){
-            $newNumber = $actualNb+1;
-        }
-        else if($action == "decrement"){
-            $newNumber = $actualNb-1;
-        }
-
-        try{
-            $query = $db->prepare(
-                'UPDATE courses SET numberOfLikes= :numberOfLikes where courseId = :courseId'
-            );
-            $query = $query->execute([
-                'numberOfLikes' => $newNumber,
-                'courseId' => $courseId
-            ]);
-        }catch(PDOException $e){
-            $e->getMessage();
-        }
 }
 
-function LikeCourse($userId,$courseId)
+function unlikeCourse($userId,$courseId)
 {
     $db = config::getConnexion();
         try {
             $query = $db->prepare(
-                'DELETE FROM followcourse WHERE userId = :userId and courseId= :courseId'
+                'DELETE FROM likecourse WHERE userId = :userId and courseId= :courseId'
+            );
+            $query->execute([
+                'userId' => $userId,
+                'courseId' => $courseId
+            ]);
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+}
+
+function likeCourse($userId,$courseId)
+{
+    $db = config::getConnexion();
+        try {
+            $query = $db->prepare(
+                'INSERT INTO likecourse (userId,courseId) 
+                VALUES (:userId,:courseId) '
             );
             $query->execute([
                 'userId' => $userId,
@@ -125,7 +130,7 @@ if(isset($_GET['courseNum']) && isset($_SESSION['userId']) && isset($_GET['actio
     $courseId = $_GET['courseNum'];
     $userId = $_SESSION['userId'];
     addCoursesToMyCourses($userId,$courseId);
-    updateNumberOfparticipants($courseId,"increment");
+    updateNumberOfParticipants($courseId,"increment");
     header("location:../View/ShowFreeCourses.php");
 }
 else if(isset($_GET['courseNum']) && isset($_SESSION['userId']) && isset($_GET['action']) && $_GET['action']=='Drop'){
@@ -138,7 +143,14 @@ else if(isset($_GET['courseNum']) && isset($_SESSION['userId']) && isset($_GET['
 else if(isset($_GET['courseNum']) && isset($_SESSION['userId']) && isset($_GET['action']) && $_GET['action']=='Like'){
     $courseId = $_GET['courseNum'];
     $userId = $_SESSION['userId'];
-    
+    likeCourse($userId,$courseId);
+    updateNumberOfLikes($courseId,"increment");
+    header("location:../View/ShowFreeCourses.php");
+}
+else if(isset($_GET['courseNum']) && isset($_SESSION['userId']) && isset($_GET['action']) && $_GET['action']=='Unlike'){
+    $courseId = $_GET['courseNum'];
+    $userId = $_SESSION['userId'];
+    unlikeCourse($userId,$courseId);
     updateNumberOfLikes($courseId,"decrement");
     header("location:../View/ShowFreeCourses.php");
 }

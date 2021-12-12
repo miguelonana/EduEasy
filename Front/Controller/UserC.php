@@ -140,7 +140,7 @@ class TeacherC{
             $query = $db->prepare(
                 'INSERT INTO teacher (userId,email,userName,password,registrationDate) 
                     VALUES (:userId,:email,:userName,:password,:registrationDate) '
-            );// INSERT INTO 'nom_de_la_table'
+            );
             $query->execute([
                 'userId' => $newTeacher->getUserId(),
                 'email' => $newTeacher->getEmail(),
@@ -308,11 +308,5 @@ class AdministratorC{
     }
 
 }
-
-
-// $crytedPassword = password_hash('qwertyuiop',PASSWORD_DEFAULT);
-//     $control = new AdministratorC();
-//     $newTeacher = new Administrator('admin','miguelstephane.onana@esprit.tn',$crytedPassword,'Administrator');
-//     $control->addAdministrator($newTeacher);
 
 ?>
