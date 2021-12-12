@@ -1,30 +1,61 @@
 <?php
 include_once "../config.php";
+include_once "../Controller/CourseC.php";
 
 session_start();
 if(!isset($_SESSION['loggedIn']) )
     header('location:login.html');
 else if($_SESSION['loggedIn'] != true)
     header('location:login.html');
+else{
+    $courseC = new CourseC();
+    $error="";
 
-    function getTeacherCourses($userId){
-        $db = config::getconnexion();
+if (isset($_POST['submit'])) {
 
-    try {
-        $query = $db->query(
-        "SELECT * FROM courses where teacher='$userId'"
-        );
-        return $query;
+  if($_POST["name"]=="")
+  {
+    $error.="Please Enter Course Name !";
+  }else if($_POST["image"]=="")
+  {
+    $error.="Please Enter Image Name !";
+  } else if($_POST["category"]=="")
+  {
+    $error.="Please Enter Course Category !";
+  }else if($_POST["type"]=="")
+  {
+    $error.="Please Enter Course Type !";
+  }
+  else if($_POST["tpic"]=="")
+  {
+    $error.="Please Enter Teacher Picture !";
+  } else
+  {
+    $courseC = new CourseC();
+    // add
+    if($_POST["type"]=="Free")
+    {
+      move_uploaded_file($_FILES['image']['tmp_name'], "images/course".$_FILES['image']['tmp_name']);
+      move_uploaded_file($_FILES['tpic']['tmp_name'], "images/course".$_FILES['tpic']['tmp_name']);
+      echo "succes fichier";
 
-    } catch (PDOException $e) {
-        $e->getMessage();
-        }
+      $course = new Course($_POST["name"],$_FILES['image']['tmp_name'],$_POST["category"],$_SESSION['userId'],$_FILES['tpic']['tmp_name'],1);
+      $courseC->ajouterCourse($course);
+    //   header("Location: teacherPage.php");
+    }else
+    {
+      move_uploaded_file($_FILES['image']['tmp_name'], "images/course/".$_FILES['image']['tmp_name']);
+      move_uploaded_file($_FILES['tpic']['tmp_name'], "images/course/".$_FILES['tpic']['tmp_name']);
+      $course = new Course($_POST["name"],$_FILES['image']['tmp_name'],$_POST["category"],$_SESSION['userId'],$_FILES['tpic']['tmp_name'],0);
+      $courseC->ajouterCourse($course);
+    //   header("Location: teacherPage.php");
     }
+  }
 
-    $courseList = getTeacherCourses($_SESSION['userId']);
+}
 
+}
 
-    
 ?>
 
 <!doctype html>
@@ -131,19 +162,10 @@ else if($_SESSION['loggedIn'] != true)
 
                                     <div class="col-lg-3 col-md-2 col-sm-3 col-6">
                                         <div class="">
-                                            <!-- <ul>
-                                                <li><a href="#" id="search"><i class="fa fa-search"
-                                                            style="font-size: 1.5rem;"></i></a></li>
-                                                <li style=""><a href="#" class="right-icon"><i
-                                                            class="fa fa-shopping-bag"
-                                                            style="font-size: 1.5rem;"></i><span>0</span></a></li>
-                                            </ul> -->
+
                                         </div>
                                     </div>
-                                    <div class="button ">
-                                        <a href="NewCourse.php" class="main-btn" style="margin-top:1rem;margin-right:2rem;">New
-                                            Course</a>
-                                    </div>
+
                                     <li class="nav-item">
                                         <a href="#" style="font-size: 1.5rem;">Forum</a>
                                         <ul class="sub-menu">
@@ -162,7 +184,7 @@ else if($_SESSION['loggedIn'] != true)
                                                 style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
                                         <ul class="sub-menu">
                                             <li><a href="teacherMyProfile.php">My Profile</a></li>
-                                            <!-- <li><a href="#">My Courses</a></li> -->
+
                                             <li><a href="../Controller/logoutControl.php">Sign out</a></li>
                                         </ul>
                                     </li>
@@ -171,12 +193,7 @@ else if($_SESSION['loggedIn'] != true)
                             </div>
                         </nav> <!-- nav -->
                     </div>
-                    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                        <div class="right-icon text-right">
-                            <ul>
-                            </ul>
-                        </div>  right icon 
-                    </div> -->
+
                 </div> <!-- row -->
             </div> <!-- container -->
         </div>
@@ -185,47 +202,52 @@ else if($_SESSION['loggedIn'] != true)
 
     <div class="tab-content" id="myTabContent" style="margin:2rem;">
         <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
-            <div class="row">
-                <?php foreach($courseList as $Course){ ?>
-                <div class="col-lg-3 col-md-4">
-                    <div class="singel-course mt-30">
-                        <div class="thum">
-                            <div class="image">
-                                <img src="images/course/cu-1.jpg" alt="Course">
+            <!-- <div class="row"> -->
+            <form method="POST" action="">
+                <div class="card-body">
+                    <div>
+                        <p class="text-danger"><?php echo $error; ?></p>
+                        <br>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Enter Course Name">
+                        </div>
+                        <br>
+                        <div>
+                            <label for="category">Picture</label>
+                            <div class="singel-form form-group" class="input-icone">
+                                <input type="file" name="image" id="image" placeholder="image" accept="image/*">
                             </div>
                         </div>
-                        <div class="cont">
-                            <a href="#">
-                                <h4><?php echo $Course['name']; ?>
-                                </h4>
-                            </a>
-                            <div class="course-teacher">
-                                <div class="thum">
-                                    <a><img src="images/course/teacher/t-1.jpg" alt="teacher"></a>
-                                </div>
-                                <div class="name">
-                                    <a>
-                                        <h6><?php echo $_SESSION['userName']; ?></h6>
-                                    </a>
-                                </div>
-                                <div class="admin">
-                                    <ul>
-                                        <li><a><i
-                                                    class="fa fa-user"></i><span><?php echo $Course['numberOfStudentsRegistered']; ?></span></a>
-                                        </li>
-                                        <li><a><i
-                                                    class="fa fa-heart"></i><span><?php echo $Course['numberOfLikes']; ?></span></a>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" class="form-control" name="category" id="category"
+                                placeholder="Enter Course Category">
+                        </div>
+                        <br>
+                        <div class="">
+                            <label for="category">Teacher Picture</label>
+                            <div class="singel-form form-group" class="input-icone">
+                                <input type="file" name="tpic" id="tpic" placeholder="tpic" accept="image/*">
                             </div>
                         </div>
-                    </div> <!-- singel course -->
-                </div>
-                <?php } ?>
+                        <br>
+                        <div class="form-group">
+                            <label for="category">Type</label>
+                            <input type="text" class="form-control" name="type" id="type" placeholder="Free / Paid">
+                        </div>
 
-            </div>
+                        <div class="card-footer">
+                            <button type="submit" name="submit" id="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
         </div>
+    </div>
     </div>
 
 

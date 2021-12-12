@@ -5,17 +5,17 @@ require_once("../../const/uniques.php");
 require_once('../../const/web-info.php');
 require_once('../../const/check_session.php');
 
-switch($res) {
-case '0':
-$_SESSION['reply'] = array (array("warning","You must login first"));
-header("location:../../login");
-break;
+// switch($res) {
+// case '0':
+// $_SESSION['reply'] = array (array("warning","You must login first"));
+// header("location:../../login");
+// break;
 
-case '2':
-$_SESSION['reply'] = array (array("warning","Invalid login session"));
-header("location:../../login");
-break;
-}
+// case '2':
+// $_SESSION['reply'] = array (array("warning","Invalid login session"));
+// header("location:../../login");
+// break;
+// }
 
 if (isset($_POST['submit'])) {
 $title = ucwords($_POST['title']);
