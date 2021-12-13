@@ -193,7 +193,7 @@ else{
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">News</a>
+                                        <a href="../../Back/View/NewsModule/index.php" style="font-size: 1.5rem;">News</a>
 
                                     </li>
 

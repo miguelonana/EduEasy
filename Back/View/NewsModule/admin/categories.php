@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 //Database configuration:
 require_once('../db/config.php');
 //Website Settings:
@@ -7,17 +7,24 @@ require_once('../const/web-info.php');
 //Check login session:
 require_once('../const/check_session.php');
 
-switch($res) {
-case '0':
-$_SESSION['reply'] = array (array("warning","You must login first"));
-header("location:../login");
-break;
+// switch($res) {
+// case '0':
+// $_SESSION['reply'] = array (array("warning","You must login first"));
+// header("location:../login");
+// break;
 
-case '2':
-$_SESSION['reply'] = array (array("warning","Invalid login session"));
-header("location:../login");
-break;
-}
+// case '2':
+// $_SESSION['reply'] = array (array("warning","Invalid login session"));
+// header("location:../login");
+// break;
+// }
+
+session_start();
+if(!isset($_SESSION['loggedIn']) )
+    header('location:../../Front/View/login.html');
+else if($_SESSION['loggedIn'] != true)
+    header('location:../../Front/View/login.html');
+?>
 
 ?>
 <!DOCTYPE html>
