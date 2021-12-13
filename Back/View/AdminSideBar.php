@@ -214,6 +214,16 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="CartModule/Views/backend/afficher_commande.php" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Sales
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="../Controller/logoutControl.php" class="nav-link">
                         <i class="nav-icon"></i>
                         <p>
