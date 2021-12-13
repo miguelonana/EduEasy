@@ -1,34 +1,6 @@
 <?php
 include_once "../config.php";
-
-function getCourse($courseId){
-    $db = config::getconnexion();
-
-try {
-    $query = $db->query(
-    "SELECT * FROM courses where id='$courseId'"
-    );
-    return $query->fetch();
-
-} catch (PDOException $e) {
-    $e->getMessage();
-    }
-}
-
-function getCourseChapters($courseId){
-    $db = config::getconnexion();
-
-try {
-    $query = $db->query(
-    "SELECT * FROM chapter where course_id='$courseId'"
-    );
-    return $query;
-
-} catch (PDOException $e) {
-    $e->getMessage();
-    }
-}
-
+include_once "../Controller/CourseC.php";
 
 session_start();
 if(!isset($_SESSION['loggedIn']) )
@@ -36,11 +8,21 @@ if(!isset($_SESSION['loggedIn']) )
 else if($_SESSION['loggedIn'] != true)
     header('location:login.html');
 else{
-    $course = getCourse($_GET['id']);
-    if($course!=NULL)
-        $chapters = getCourseChapters($course['id']);
-
+    
+    $courseC = new CourseC();
+    
+    if (isset($_POST['submit'])) {
+    $categorie = $_POST["category"];
+      if($_POST["name"]=="")
+      {
+        $error.="Please Enter Chapter Name !";
+      } else if(strlen($categorie)==0)
+      {
+        $error.="Please Enter Chapter Category !";
+      }
     }
+}
+
 ?>
 
 <!doctype html>
@@ -96,7 +78,7 @@ else{
 
     <!--====== PRELOADER PART START ======-->
 
-    <!-- <div class="preloader">
+    <div class="preloader">
         <div class="loader rubix-cube">
             <div class="layer layer-1"></div>
             <div class="layer layer-2"></div>
@@ -107,7 +89,7 @@ else{
             <div class="layer layer-7"></div>
             <div class="layer layer-8"></div>
         </div>
-    </div> -->
+    </div>
 
     <!--====== PRELOADER PART START ======-->
 
@@ -171,7 +153,7 @@ else{
                                                 style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
                                         <ul class="sub-menu">
                                             <li><a href="teacherMyProfile.php">My Profile</a></li>
-                                            <!-- <li><a href="#">My Courses</a></li> -->
+
                                             <li><a href="../Controller/logoutControl.php">Sign out</a></li>
                                         </ul>
                                     </li>
@@ -180,6 +162,7 @@ else{
                             </div>
                         </nav> <!-- nav -->
                     </div>
+
                 </div> <!-- row -->
             </div> <!-- container -->
         </div>
@@ -188,115 +171,43 @@ else{
 
     <div class="tab-content" id="myTabContent" style="margin:2rem;">
         <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
-            <center>
-                <h2>Course Name: <?php echo $course["name"] ?></h2>
-            </center>
-            <a href="NewChapter.php?courseId=<?php echo $course["id"]; ?>" class="main-btn">New Chapter</a>
             <!-- <div class="row"> -->
-            <br>
-            <div class="corses-tab mt-30">
-                <ul class="nav nav-justified" id="myTab" role="tablist">
-                    <!-- <li class="nav-item">
-                        <a class="active" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
-                            aria-controls="overview" aria-selected="true">Overview</a>
-                    </li> -->
-                    <li class="nav-item">
-                        <a id="curriculam-tab" data-toggle="tab" href="#curriculam" role="tab"
-                            aria-controls="curriculam" aria-selected="false">Curriculam</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a id="instructor-tab" data-toggle="tab" href="#instructor" role="tab"
-                            aria-controls="instructor" aria-selected="false">Instructor</a>
-                    </li> -->
-                    <li class="nav-item">
-                        <a id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
-                            aria-selected="false">Course DataSheet</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade" id="curriculam" role="tabpanel" aria-labelledby="curriculam-tab">
-
-                        <div class="curriculam-cont">
-                            <div class="title">
-                                <h6><?php echo $course["name"] ?></h6>
+            <form method="POST" action="ajouter.php" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div>
+                        <p class="text-danger">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Enter chapter Name">
+                            <input type="hidden" class="form-control" id="id" name="id" placeholder="Enter chapter id">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="category">Description</label>
+                            <input type="text" class="form-control" name="category" id="category"
+                                placeholder="Enter chapter Description">
+                            <p id="error" style="color:red;"></p>
+                        </div>
+                        <br>
+                        <div class="">
+                            <label for="file">Join a File</label>
+                            <div class="singel-form form-group" class="input-icone">
+                                <input type="file" name="file" id="file">
                             </div>
-                            <?php foreach($chapters as $chapter){ ?>
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <a href="#" data-toggle="collapse" data-target="#collapseOne"
-                                            aria-expanded="true" aria-controls="collapseOne">
-                                            <ul>
-                                                <li><i class="fa fa-file-o"></i></li>
-                                                <li><span class="lecture">Chapter Name:</span></li>
-                                                <li><span class="head"><?php echo $chapter["nom"] ?></span></li>
-                                                <li><span class="time d-none d-md-block">
-                                                        <!--<i class="fa fa-clock-o"></i>-->
-                                                        <!--<span>
-                                                            00.30.00</span>-->
-                                                    </span></li>
-                                            </ul>
-                                        </a>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                        data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <p>Ut quis scelerisque risus, et viverra nisi. Phasellus ultricies luctus
-                                                augue,
-                                                eget maximus felis laoreet quis. Maecenasbibendum tempor eros.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php } ?>
-                        </div> <!-- curriculam cont -->
+                            <p id="error" style="color:red;"></p>
+                        </div>
                     </div>
-
-
-                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                        <div class="reviews-cont">
-                            <div class="title">
-                                <h6> Reviews </h6>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="singel-reviews">
-                                        <div class="reviews-author">
-                                            <div class="author-thum">
-                                                <img src="images/review/r-2.jpg" alt="Reviews">
-                                            </div>
-                                            <div class="author-name">
-                                                <h6>Humayun Ahmed</h6>
-                                                <span>April 13, 2019</span>
-                                            </div>
-                                        </div>
-                                        <div class="reviews-description pt-20">
-                                            <p>There are many variations of passages of Lorem Ipsum available, but the
-                                                majority
-                                                have suffered alteration in some form, by injected humour, or randomised
-                                                words
-                                                which.</p>
-                                            <div class="rating">
-                                                <ul>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span>/ 5 Star</span>
-                                            </div>
-                                        </div>
-                                    </div> <!-- singel reviews -->
-                                </li>
-
-                        </div> <!-- reviews cont -->
+                    <br>
+                    <br>
+                    <div>
+                        <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Add New Chapter">
                     </div>
-                </div> <!-- tab content -->
-            </div>
+                </div>
+            </form>
+
         </div>
+    </div>
     </div>
 
 

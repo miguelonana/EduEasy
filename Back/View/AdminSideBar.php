@@ -122,23 +122,14 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="courses.php" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Courses
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">11</span>
+                            <span class="badge badge-info right"></span>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    test course</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -208,9 +199,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="createQuiz.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>test quiz</p>
+                                <p>Create Quiz</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="result.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Results</p>
                             </a>
                         </li>
                     </ul>
