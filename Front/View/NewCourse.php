@@ -8,47 +8,50 @@ if(!isset($_SESSION['loggedIn']) )
 else if($_SESSION['loggedIn'] != true)
     header('location:login.html');
 else{
-    $courseC = new CourseC();
-    $error="";
+    
+$courseC = new CourseC();
+$error="";
 
 if (isset($_POST['submit'])) {
 
   if($_POST["name"]=="")
   {
     $error.="Please Enter Course Name !";
-  }else if($_POST["image"]=="")
+  }else if(!isset($_FILES['image']))
   {
-    $error.="Please Enter Image Name !";
+    $error.="Please select Image !";
   } else if($_POST["category"]=="")
   {
     $error.="Please Enter Course Category !";
-  }else if($_POST["type"]=="")
+  }else if($_POST["type"]=="unselected")
   {
     $error.="Please Enter Course Type !";
   }
-  else if($_POST["tpic"]=="")
+  else if(!isset($_FILES['tpic']))
   {
-    $error.="Please Enter Teacher Picture !";
+    $error.="Please select Teacher Picture !";
   } else
   {
     $courseC = new CourseC();
     // add
-    if($_POST["type"]=="Free")
-    {
-      move_uploaded_file($_FILES['image']['tmp_name'], "images/course".$_FILES['image']['tmp_name']);
-      move_uploaded_file($_FILES['tpic']['tmp_name'], "images/course".$_FILES['tpic']['tmp_name']);
-      echo "succes fichier";
-
-      $course = new Course($_POST["name"],$_FILES['image']['tmp_name'],$_POST["category"],$_SESSION['userId'],$_FILES['tpic']['tmp_name'],1);
-      $courseC->ajouterCourse($course);
-    //   header("Location: teacherPage.php");
+    if($_POST["type"]=="Free"){
+        if(isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK && isset($_FILES['tpic']) && $_FILES['tpic']['error'] == UPLOAD_ERR_OK){
+            move_uploaded_file($_FILES['image']['tmp_name'], "images/course/".basename($_FILES["image"]["name"]));
+            move_uploaded_file($_FILES['tpic']['tmp_name'], "images/course/teacher/".basename($_FILES["tpic"]["name"]));
+            $course = new Course($_POST["name"],basename($_FILES["image"]["name"]),$_POST["category"],$_SESSION['userId'],$_FILES['tpic']['name'],1);
+            $courseC->ajouterCourse($course);
+            header("Location: teacherPage.php");
+        }
+        
     }else
     {
-      move_uploaded_file($_FILES['image']['tmp_name'], "images/course/".$_FILES['image']['tmp_name']);
-      move_uploaded_file($_FILES['tpic']['tmp_name'], "images/course/".$_FILES['tpic']['tmp_name']);
-      $course = new Course($_POST["name"],$_FILES['image']['tmp_name'],$_POST["category"],$_SESSION['userId'],$_FILES['tpic']['tmp_name'],0);
-      $courseC->ajouterCourse($course);
-    //   header("Location: teacherPage.php");
+        if(isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK && isset($_FILES['tpic']) && $_FILES['tpic']['error'] == UPLOAD_ERR_OK){
+            move_uploaded_file($_FILES['image']['tmp_name'], "images/course/".basename($_FILES["image"]["name"]));
+            move_uploaded_file($_FILES['tpic']['tmp_name'], "images/course/teacher/".basename($_FILES["tpic"]["name"]));
+            $course = new Course($_POST["name"],basename($_FILES["image"]["name"]),$_POST["category"],$_SESSION['userId'],basename($_FILES["tpic"]["name"]),0);
+            $courseC->ajouterCourse($course);
+            header("Location: teacherPage.php");
+        }
     }
   }
 
@@ -165,7 +168,9 @@ if (isset($_POST['submit'])) {
 
                                         </div>
                                     </div>
-
+                                    <li class="nav-item">
+                                        <a href="teacherPage.php" style="font-size: 1.5rem;">Courses</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="#" style="font-size: 1.5rem;">Forum</a>
                                         <ul class="sub-menu">
@@ -203,7 +208,7 @@ if (isset($_POST['submit'])) {
     <div class="tab-content" id="myTabContent" style="margin:2rem;">
         <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
             <!-- <div class="row"> -->
-            <form method="POST" action="">
+            <form method="POST" action="" enctype="multipart/form-data">
                 <div class="card-body">
                     <div>
                         <p class="text-danger"><?php echo $error; ?></p>
@@ -217,7 +222,7 @@ if (isset($_POST['submit'])) {
                         <div>
                             <label for="category">Picture</label>
                             <div class="singel-form form-group" class="input-icone">
-                                <input type="file" name="image" id="image" placeholder="image" accept="image/*">
+                                <input type="file" name="image" id="image" accept="image/*">
                             </div>
                         </div>
                         <br>
@@ -230,18 +235,25 @@ if (isset($_POST['submit'])) {
                         <div class="">
                             <label for="category">Teacher Picture</label>
                             <div class="singel-form form-group" class="input-icone">
-                                <input type="file" name="tpic" id="tpic" placeholder="tpic" accept="image/*">
+                                <input type="file" name="tpic" id="tpic" accept="image/*">
                             </div>
                         </div>
                         <br>
-                        <div class="form-group">
+                        <div>
                             <label for="category">Type</label>
-                            <input type="text" class="form-control" name="type" id="type" placeholder="Free / Paid">
+                            <div class="singel-form form-group">
+                                <select name="type" id="type" required>
+                                    <option value="unselected"></option>
+                                    <option value="Free"> Free Course </option>
+                                    <option value="Paid"> Premuim Course </option>
+                                </select>
+                            </div>
                         </div>
-
-                        <div class="card-footer">
-                            <button type="submit" name="submit" id="submit" class="btn btn-primary">Add</button>
-                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <input type="submit" name="submit" value="Add" class="main-btn" st>
                     </div>
                 </div>
             </form>

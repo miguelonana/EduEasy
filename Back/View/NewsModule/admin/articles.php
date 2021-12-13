@@ -1,17 +1,23 @@
 <?php
-// session_start();
+session_start();
 //Database configuration:
 require_once('../db/config.php');
 //Website Settings:
 require_once('../const/web-info.php');
 //Check login session:
-// require_once('../const/check_session.php');
+require_once('../const/check_session.php');
 
-$searchADM = "ADM";
-    session_start();
-    if(!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] != true || !preg_match("/{$searchADM}/i", $_SESSION['userId'])){    
-        header('location:../../Front/View/login.html');
-    }
+switch($res) {
+case '0':
+$_SESSION['reply'] = array (array("warning","You must login first"));
+header("location:../login");
+break;
+
+case '2':
+$_SESSION['reply'] = array (array("warning","Invalid login session"));
+header("location:../login");
+break;
+}
 
 ?>
 <!DOCTYPE html>
@@ -50,7 +56,83 @@ $searchADM = "ADM";
 
 		</nav>
 
-		<?php include "Sidebar.php" ?>
+		<div class="fixed-sidebar-left">
+			<ul class="nav navbar-nav side-nav nicescroll-bar">
+				<li class="navigation-header">
+					<span>Main</span>
+					<i class="zmdi zmdi-more"></i>
+				</li>
+				<li>
+					<a href="admin"><div class="pull-left"><i class="feather icon-airplay mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="clearfix"></div></a>
+				</li>
+
+				<li><hr class="light-grey-hr mb-10"/></li>
+				<li class="navigation-header">
+					<span>Content</span>
+					<i class="zmdi zmdi-more"></i>
+          <li>
+            <a href="admin/categories"><div class="pull-left"><i class="feather icon-layers mr-20"></i><span class="right-nav-text">Categories</span></div><div class="clearfix"></div></a>
+          </li>
+          <li>
+            <a  href="admin/new-article"><div class="pull-left"><i class="feather icon-edit-1 mr-20"></i><span class="right-nav-text">Publish Article</span></div><div class="clearfix"></div></a>
+          </li>
+          <li>
+            <a class="active" href="admin/articles"><div class="pull-left"><i class="feather icon-file-text mr-20"></i><span class="right-nav-text">Manage Article</span></div><div class="clearfix"></div></a>
+          </li>
+				</li>
+
+				<li><hr class="light-grey-hr mb-10"/></li>
+				<li class="navigation-header">
+					<span>Newsletter</span>
+					<i class="zmdi zmdi-more"></i>
+          <li>
+            <a  href="admin/subscribers"><div class="pull-left"><i class="feather icon-users mr-20"></i><span class="right-nav-text">Subscribers</span></div><div class="clearfix"></div></a>
+          </li>
+          <li>
+            <a  href="admin/newsletter"><div class="pull-left"><i class="feather icon-mail mr-20"></i><span class="right-nav-text">Create Newsletter</span></div><div class="clearfix"></div></a>
+          </li>
+				</li>
+
+        <li><hr class="light-grey-hr mb-10"/></li>
+        <li class="navigation-header">
+          <span>Advertisement</span>
+          <i class="zmdi zmdi-more"></i>
+          <li>
+            <a  href="admin/new-banner"><div class="pull-left"><i class="feather icon-file-plus mr-20"></i><span class="right-nav-text">Create Banners</span></div><div class="clearfix"></div></a>
+          </li>
+          <li>
+            <a  href="admin/manage-banners"><div class="pull-left"><i class="feather icon-grid mr-20"></i><span class="right-nav-text">Manage Banners</span></div><div class="clearfix"></div></a>
+          </li>
+        </li>
+
+        <li><hr class="light-grey-hr mb-10"/></li>
+        <li class="navigation-header">
+          <span>Settings</span>
+          <i class="zmdi zmdi-more"></i>
+          <li>
+            <a  href="admin/blog-settings"><div class="pull-left"><i class="feather icon-settings mr-20"></i><span class="right-nav-text">Blog Settings</span></div><div class="clearfix"></div></a>
+          </li>
+          <li>
+            <a  href="admin/scripts"><div class="pull-left"><i class="feather icon-code mr-20"></i><span class="right-nav-text">Scripts</span></div><div class="clearfix"></div></a>
+          </li>
+
+        </li>
+
+        <li><hr class="light-grey-hr mb-10"/></li>
+        <li class="navigation-header">
+          <span>Account</span>
+          <i class="zmdi zmdi-more"></i>
+          <li>
+            <a  href="admin/profile"><div class="pull-left"><i class="feather icon-user mr-20"></i><span class="right-nav-text">Profile</span></div><div class="clearfix"></div></a>
+          </li>
+          <li>
+            <a  href="logout"><div class="pull-left"><i class="feather icon-power mr-20"></i><span class="right-nav-text">Logout</span></div><div class="clearfix"></div></a>
+          </li>
+
+        </li>
+
+			</ul>
+		</div>
 
 		<div id="cpage" class="page-wrapper">
       <div class="container-fluid pt-25">

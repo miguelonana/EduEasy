@@ -141,7 +141,8 @@ else if($_SESSION['loggedIn'] != true)
                                         </div>
                                     </div>
                                     <div class="button ">
-                                        <a href="NewCourse.php" class="main-btn" style="margin-top:1rem;margin-right:2rem;">New
+                                        <a href="NewCourse.php" class="main-btn"
+                                            style="margin-top:1rem;margin-right:2rem;">New
                                             Course</a>
                                     </div>
                                     <li class="nav-item">
@@ -191,17 +192,18 @@ else if($_SESSION['loggedIn'] != true)
                     <div class="singel-course mt-30">
                         <div class="thum">
                             <div class="image">
-                                <img src="images/course/cu-1.jpg" alt="Course">
+                                <img src="images/course/<?php echo $Course['image'] ?>" alt="Course" style="height:10rem;">
                             </div>
                         </div>
                         <div class="cont">
-                            <a href="#">
+                            <a href="singleCoursePage.php?id=<?php echo $Course['id'] ?>">
                                 <h4><?php echo $Course['name']; ?>
                                 </h4>
                             </a>
                             <div class="course-teacher">
                                 <div class="thum">
-                                    <a><img src="images/course/teacher/t-1.jpg" alt="teacher"></a>
+                                    <a><img src="images/course/teacher/<?php echo $Course['teacher_image'] ?>"
+                                            alt="teacher"></a>
                                 </div>
                                 <div class="name">
                                     <a>
