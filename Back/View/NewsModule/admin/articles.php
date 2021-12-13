@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 //Database configuration:
 require_once('../db/config.php');
 //Website Settings:
@@ -18,6 +18,17 @@ require_once('../const/check_session.php');
 // header("location:../login");
 // break;
 // }
+//switch($res) {
+//case '0':
+//$_SESSION['reply'] = array (array("warning","You must login first"));
+//header("location:../login");
+//break;
+
+//case '2':
+//$_SESSION['reply'] = array (array("warning","Invalid login session"));
+//header("location:../login");
+//break;
+//}
 
 ?>
 <!DOCTYPE html>
