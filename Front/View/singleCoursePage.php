@@ -189,7 +189,7 @@ else{
     <div class="tab-content" id="myTabContent" style="margin:2rem;">
         <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
             <center>
-                <h2>Course Name: <?php echo $course["name"] ?></h2>
+                <h2>Course Name: <?php echo $course["name"] ?></h2test>
             </center>
             <a href="#" class="main-btn">New Chapter</a>
             <!-- <div class="row"> -->
