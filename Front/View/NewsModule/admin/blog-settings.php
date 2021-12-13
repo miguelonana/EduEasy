@@ -209,7 +209,7 @@ echo "Connection failed: " . $e->getMessage();
 												<div class="form-wrap">
 													<form id="app_frm" action="admin/core/update_basic_blog" method="POST" autocomplete="OFF" >
                             <div class="form-group">
-    													<label class="control-label mb-10 text-left">Name</label>
+    													<label class="control-label mb-10 text-left">Houssem ammar</label>
     													<input type="text" class="form-control" value="<?php echo WBName; ?>" name="blog" required>
     												</div>
     												<div class="form-group">
