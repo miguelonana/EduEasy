@@ -2,6 +2,28 @@
 include_once "../config.php";
 include_once "../Controller/CourseC.php";
 
+function ajouterchapter($nom,$category,$courseId,$file)
+{
+	$db = config::getConnexion();
+
+        try {
+            
+            $query = $db->prepare(
+                'INSERT INTO chapter (id,nom,category,course_id,file) 
+                    VALUES (:id,:nom,:category,:course_id,:file)'
+            );
+            $query->execute([
+                'id' => 0,
+                'nom' => $nom,
+                'category' => $category,
+                'course_id' => $courseId,
+                'file' => $file
+            ]);
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+}
+
 session_start();
 if(!isset($_SESSION['loggedIn']) )
     header('location:login.html');
@@ -9,10 +31,11 @@ else if($_SESSION['loggedIn'] != true)
     header('location:login.html');
 else{
     
-    $courseC = new CourseC();
+    //$courseC = new CourseC();
+    $id=$_GET['courseId'];
     
     if (isset($_POST['submit'])) {
-    $categorie = $_POST["category"];
+      $categorie = $_POST["category"];
       if($_POST["name"]=="")
       {
         $error.="Please Enter Chapter Name !";
@@ -20,6 +43,10 @@ else{
       {
         $error.="Please Enter Chapter Category !";
       }
+    //   else{
+        
+    //     //header("location:singleCoursePage.php?id='$id'");
+    //   }
     }
 }
 
@@ -172,7 +199,7 @@ else{
     <div class="tab-content" id="myTabContent" style="margin:2rem;">
         <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
             <!-- <div class="row"> -->
-            <form method="POST" action="ajouter.php" enctype="multipart/form-data">
+            <form method="POST" action="../Controller/AddChapter.php?id=<?php echo $_GET['courseId'] ?>" enctype="multipart/form-data">
                 <div class="card-body">
                     <div>
                         <p class="text-danger">
@@ -180,13 +207,13 @@ else{
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="Enter chapter Name">
-                            <input type="hidden" class="form-control" id="id" name="id" placeholder="Enter chapter id">
+                            <!-- <input type="hidden" class="form-control" id="id" name="id" placeholder="Enter chapter id"> -->
                         </div>
                         <br>
                         <div class="form-group">
                             <label for="category">Description</label>
-                            <input type="text" class="form-control" name="category" id="category"
-                                placeholder="Enter chapter Description">
+                            <textarea type="text" class="form-control" name="category" id="category"
+                                placeholder="Enter chapter Description" cols="30" rows="10"></textarea>
                             <p id="error" style="color:red;"></p>
                         </div>
                         <br>

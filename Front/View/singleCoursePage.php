@@ -232,10 +232,8 @@ else{
                                                 <li><span class="lecture">Chapter Name:</span></li>
                                                 <li><span class="head"><?php echo $chapter["nom"] ?></span></li>
                                                 <li><span class="time d-none d-md-block">
-                                                        <!--<i class="fa fa-clock-o"></i>-->
-                                                        <!--<span>
-                                                            00.30.00</span>-->
-                                                    </span></li>
+                                                        <!-- <i class=""></i><span><a href="">link</a></span> -->
+                                                </li>
                                             </ul>
                                         </a>
                                     </div>
@@ -243,9 +241,16 @@ else{
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                         data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <p>Ut quis scelerisque risus, et viverra nisi. Phasellus ultricies luctus
-                                                augue,
-                                                eget maximus felis laoreet quis. Maecenasbibendum tempor eros.</p>
+                                            <p style="color:black;"><?php echo $chapter['category']; ?><br><i
+                                                    class="<?php if($chapter['file']!=NULL) echo 'fa fa-file-o';?>"></i>
+                                                <span>
+                                                    <?php if($chapter['file']!=NULL) echo 'Chapter File:'?><a
+                                                        href="<?php echo $chapter['file'];?>"
+                                                        target="_blank"><?php if($chapter['file']!=NULL) echo 'link'?></a>
+                                                </span>
+                                                <br>
+                                                <a href="" class="main-btn">Update</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -258,39 +263,9 @@ else{
                     <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                         <div class="reviews-cont">
                             <div class="title">
-                                <h6> Reviews </h6>
+                                <h6> Number Of Students: <?php echo $course['numberOfStudentsRegistered']?></h6>
+                                <h6> Number Of Likes: <?php echo $course['numberOfLikes']?></h6>
                             </div>
-                            <ul>
-                                <li>
-                                    <div class="singel-reviews">
-                                        <div class="reviews-author">
-                                            <div class="author-thum">
-                                                <img src="images/review/r-2.jpg" alt="Reviews">
-                                            </div>
-                                            <div class="author-name">
-                                                <h6>Humayun Ahmed</h6>
-                                                <span>April 13, 2019</span>
-                                            </div>
-                                        </div>
-                                        <div class="reviews-description pt-20">
-                                            <p>There are many variations of passages of Lorem Ipsum available, but the
-                                                majority
-                                                have suffered alteration in some form, by injected humour, or randomised
-                                                words
-                                                which.</p>
-                                            <div class="rating">
-                                                <ul>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span>/ 5 Star</span>
-                                            </div>
-                                        </div>
-                                    </div> <!-- singel reviews -->
-                                </li>
 
                         </div> <!-- reviews cont -->
                     </div>
