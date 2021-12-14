@@ -1,27 +1,28 @@
 <?php
 
 include_once('../Controller/CourseC.php');
-session_start();
-function getCourseByName($name){
 
-  $sql = "SELECT * FROM courses where name='$name'";
-            $db = config::getConnexion();
-            try{
-				$list = $db->query($sql);
-				return $list;
-			}
-			catch(Exception $e){
-				die('Error:'. $e->getMessage());
-			}
+function getChapters($couse_id){
+    $db = config::getconnexion();
+
+    try {
+        $query = $db->query(
+        "SELECT * FROM chapter where course_id='$couse_id'"
+        );
+        return $query;
+
+    } catch (PDOException $e) {
+        $e->getMessage();
+    }
 }
 
-$courseC = new CourseC();
-if(isset($_GET['search']) && isset($_GET['search'])!=NULL)
-$courses=getCourseByName($_GET['search'])->fetchAll();
-else 
-$courses = $courseC->afficherCourses()->fetchAll();
-$chapterC = new CourseC();
-$lis = $chapterC->afficherchapter()->fetchAll();
+session_start();
+if(!isset($_SESSION['loggedIn']) )
+    header('location:../../Front/View/login.html');
+else if($_SESSION['loggedIn'] != true)
+    header('location:../../Front/View/login.html');
+else
+    $Chapters = getChapters($_GET['id']);
 ?>
 
 
@@ -80,7 +81,7 @@ $error='';
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Courses List</h3>
+                                    <h3 class="card-title">Chapters</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -90,43 +91,20 @@ $error='';
                                         <thead>
                                             <tr>
                                                 <th style="width: 10px">#</th>
-                                                <th>Image</th>
                                                 <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Teacher</th>
+                                                <th>Description</th>
+                                                <!-- <th>Teacher</th>
                                                 <th>Type</th>
-                                                <th>Chapters</th>
+                                                <th>Chapters</th> -->
                                                 <!-- <th>Actions</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                    for ($i=0; $i <count($courses); $i++) {
-                      echo '<tr>';
-                      echo '<td>'.$courses[$i]['id'].'</td>';
-                      echo '<td style="width:25%"><center><img src="../../Front/View/images/'.$courses[$i]['image'].'" style="width:50%; height:50%; margin:auto; display:block;" alt=""></center></td>';
-                      echo '<td>'.$courses[$i]['name'].'</td>';
-                      echo '<td>'.$courses[$i]['category'].'</td>';
-                      echo '<td>'.$courses[$i]['teacher'].'</td>';
-
-                      if($courses[$i]['free']==0)
-                      {
-                        echo '<td><span class="badge bg-danger">Paid</span></td>';
-
-                      }else
-                      {
-                        echo '<td><span class="badge bg-success">Free</span></td>';
-                      }
-                      echo '<td><a href="Chapters.php?id='.$courses[$i]['id'].'">Chapters</a></td>';
-
-                      //echo '<td><a class="btn btn-info" href="updateCourse.php?id='.$courses[$i]['id'].'">Update</a> <a class="btn btn-danger" href="deleteCourse.php?id='.$courses[$i]['id'].'">Delete</a></td>';
-
-
-                      echo '</tr>';
-                    }
-
-
-                    ?>
+                                            <?php foreach ($Chapters as $Chapter){?>
+                                                <td><?php echo $Chapter['id'] ?></td>
+                                                <td><?php echo $Chapter['nom'] ?></td>
+                                                <td><?php echo $Chapter['category'] ?></td>
+                                                <?php } ?>
                                             <button class="btn btn-primary" onclick="print('courses.php')">Imprimer le
                                                 PDF</button>
                                         </tbody>
