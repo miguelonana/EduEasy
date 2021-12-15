@@ -147,7 +147,7 @@ require_once('const/web-info.php');
 				<div class="col-md-3 col-sm-12">
 					<div class="logo">
 						 <a href="./">
-							<img src="images/logos/<?php echo WBLogo; ?>" alt="">
+							<img src="images/favicon.png" alt="">
 						 </a>
 					</div>
 				</div>

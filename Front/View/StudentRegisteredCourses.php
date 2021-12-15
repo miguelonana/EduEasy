@@ -2,12 +2,12 @@
 
 include_once "../config.php";
 
-function getRegisteredCourses(){
+function getRegisteredCourses($userId){
     $db = config::getconnexion();
 
     try {
         $query = $db->query(
-        "select courses.id,courses.name,courses.category,courses.teacher,courses.teacher_image,courses.free,courses.image,courses.numberOfStudentsRegistered,courses.numberOfLikes from courses,followcourse where courses.id=followcourse.courseId and followcourse.userId='2021STU0'; "
+        "select courses.id,courses.name,courses.category,courses.teacher,courses.teacher_image,courses.free,courses.image,courses.numberOfStudentsRegistered,courses.numberOfLikes,teacher.userName from courses,followcourse,teacher where courses.id=followcourse.courseId and followcourse.userId='$userId' and teacher.userId=courses.teacher; "
         );
         return $query;
 
@@ -60,7 +60,7 @@ if(!isset($_SESSION['loggedIn']) )
 else if($_SESSION['loggedIn'] != true)
     header('location:login.html');
 else{
-    $coursesList = getRegisteredCourses();
+    $coursesList = getRegisteredCourses($_SESSION['userId']);
 }
 ?>
 
@@ -136,90 +136,7 @@ else{
 
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part" style="padding-top: 1rem;">
-        <div class="navigation">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent"
-                                style="margin-left: 10rem;">
-                                <div class="col-lg-2 col-md-2 col-sm-3 col-6">
-                                    <div class="logo">
-                                        <a href="#">
-                                            <img src="images/logo.png" alt="Logo">
-                                        </a>
-                                    </div>
-                                </div>
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Courses</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="ShowPaidCourses.php">Premium Courses</a></li>
-                                            <li><a href="ShowFreeCourses.php">Free Courses</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Forum</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="#">Forum</a></li>
-                                            <li><a href="#">Private Forum</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">News</a>
-
-                                    </li>
-
-                                    <div class="col-lg-5 col-md-2 col-sm-3 col-6">
-                                        <div class="right-icon text-right">
-                                            <ul>
-                                                <li><a href="#" id="search"><i class="fa fa-search"
-                                                            style="font-size: 1.5rem;"></i></a></li>
-                                                <li style=""><a href="#" class="right-icon"><i
-                                                            class="fa fa-shopping-bag"
-                                                            style="font-size: 1.5rem;"></i><span>0</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <li class="nav-item text-right">
-                                        <a href="#"><img src="../View/images/feature-user.png" alt="userImage"
-                                                style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
-                                        <ul class="sub-menu">
-                                            <li><a href="studentMyProfile.php">My Profile</a></li>
-                                            <li><a href="StudentRegisteredCourses.php">My Courses</a></li>
-                                            <li><a href="../Controller/logoutControl.php">Sign out</a></li>
-                                        </ul>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </nav> <!-- nav -->
-                    </div>
-                    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                        <div class="right-icon text-right">
-                            <ul>
-                            </ul>
-                        </div>  right icon 
-                    </div> -->
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div>
-
-    </header>
-
-
+    <?php include "headers/StudentMainHeader.php" ?>
     <!--====== HEADER PART ENDS ======-->
 
     <!--====== SEARCH BOX PART START ======-->
@@ -305,15 +222,15 @@ else{
                                     </div>
                                 </div>
                                 <div class="cont">
-                                    <span href="#">
+                                    <a href="StudentMyCoursesDetailled.php?id=<?php echo $Course['id']; ?>">
                                         <h4><?php echo $Course['name']; ?>
                                         </h4>
-                                    </span>
+                                    </a>
                                     <div class="course-teacher">
                                         <div class="thum">
                                             <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a><a
                                                 href="#">
-                                                <h6>Makrem Abdelia</h6>
+                                                <h6><?php echo $Course['userName'] ?></h6>
                                             </a>
                                         </div>
                                         <div class="course-teacher">

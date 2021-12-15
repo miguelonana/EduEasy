@@ -97,93 +97,9 @@ else if($_SESSION['loggedIn'] != true)
 
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part" style="padding-top: 1rem;">
-        <div class="navigation">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+    <?php include "headers/TeacherMainHeader.php" ?>
 
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent"
-                                style="margin-left: 1rem;">
-                                <div class="col-lg-2 col-md-2 col-sm-3 col-6">
-                                    <div class="logo">
-                                        <a href="#">
-                                            <img src="images/logo.png" alt="Logo">
-                                        </a>
-                                    </div>
-                                </div>
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Teacher's Space</a>
-                                        <ul class="sub-menu">
-                                            <!-- <li><a href="#">Add a New Course</a></li>
-                                            <li><a href="#">View my courses</a></li> -->
-                                        </ul>
-                                    </li>
-
-                                    <div class="col-lg-3 col-md-2 col-sm-3 col-6">
-                                        <div class="">
-                                            <!-- <ul>
-                                                <li><a href="#" id="search"><i class="fa fa-search"
-                                                            style="font-size: 1.5rem;"></i></a></li>
-                                                <li style=""><a href="#" class="right-icon"><i
-                                                            class="fa fa-shopping-bag"
-                                                            style="font-size: 1.5rem;"></i><span>0</span></a></li>
-                                            </ul> -->
-                                        </div>
-                                    </div>
-                                    <div class="button ">
-                                        <a href="NewCourse.php" class="main-btn"
-                                            style="margin-top:1rem;margin-right:2rem;">New
-                                            Course</a>
-                                    </div>
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Forum</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="#">Forum</a></li>
-                                            <li><a href="#">Private Forum</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">News</a>
-
-                                    </li>
-
-                                    <li class="nav-item text-right">
-                                        <a href="#"><img src="../View/images/feature-user.png" alt="userImage"
-                                                style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
-                                        <ul class="sub-menu">
-                                            <li><a href="teacherMyProfile.php">My Profile</a></li>
-                                            <!-- <li><a href="#">My Courses</a></li> -->
-                                            <li><a href="../Controller/logoutControl.php">Sign out</a></li>
-                                        </ul>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </nav> <!-- nav -->
-                    </div>
-                    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                        <div class="right-icon text-right">
-                            <ul>
-                            </ul>
-                        </div>  right icon 
-                    </div> -->
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div>
-
-    </header>
-
+    <!-- ===============HEADER PART ENDS============= -->
     <div class="tab-content" id="myTabContent" style="margin:2rem;">
         <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
             <div class="row">
@@ -192,7 +108,8 @@ else if($_SESSION['loggedIn'] != true)
                     <div class="singel-course mt-30">
                         <div class="thum">
                             <div class="image">
-                                <img src="images/course/<?php echo $Course['image'] ?>" alt="Course" style="height:10rem;">
+                                <img src="images/course/<?php echo $Course['image'] ?>" alt="Course"
+                                    style="height:10rem;">
                             </div>
                         </div>
                         <div class="cont">
@@ -229,108 +146,10 @@ else if($_SESSION['loggedIn'] != true)
             </div>
         </div>
     </div>
-
-
-
-    <!--====== FOOTER PART START ======-->
-
-    <footer id="footer-part">
-        <div class="footer-top pt-40 pb-70">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2 col-md-1">
-                        <div class="footer-about mt-40">
-                            <div class="logo">
-                                <a href="#"><img src="images/logo-2.png" alt="Logo"></a>
-                            </div>
-                            <ul class="mt-20">
-                                <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div> <!-- footer about -->
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="footer-link mt-40">
-                            <div class="footer-title pb-25">
-                                <h6>Sitemap</h6>
-                            </div>
-                            <ul>
-                                <li><a href="index.html"><i class="fa fa-angle-right"></i>Home</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>News</a></li>
-                                <li><a href="PaidCourses.php"><i class="fa fa-angle-right"></i>Premuim Courses</a></li>
-                                <li><a href="FreeCourses.php"><i class="fa fa-angle-right"></i>Free Courses</a></li>
-                            </ul>
-                        </div> <!-- footer link -->
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="footer-link support mt-40">
-                            <div class="footer-title pb-25">
-                                <h6>Support</h6>
-                            </div>
-                            <ul>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Privacy</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Policy</a></li>
-                            </ul>
-                        </div> <!-- support -->
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-address mt-40">
-                            <div class="footer-title pb-25">
-                                <h6>Contact Us</h6>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="icon">
-                                        <i class="fa fa-home"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>1140 Rue Amir Abedelkader, Tunis</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <i class="fa fa-phone"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>+2165285125499</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <i class="fa fa-envelope-o"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>EduEasyinfo@gmail.com</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> <!-- footer address -->
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- footer top -->
-
-        <div class="footer-copyright pt-10 pb-25">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="copyright text-md-left text-center pt-15">
-                            <!-- <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a> </p> -->
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="copyright text-md-right text-center pt-15">
-
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- footer copyright -->
-    </footer>
-
-    <!--====== FOOTER PART ENDS ======-->
+    
+    <!-- ===================FOOTER PAGE STARTS========== -->
+    <?php include "headers/footer.php" ?>
+    <!-- ===================FOOTER PAGE STOPS========== -->
 
     <!--====== BACK TO TP PART START ======-->
 

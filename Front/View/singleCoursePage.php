@@ -36,11 +36,11 @@ if(!isset($_SESSION['loggedIn']) )
 else if($_SESSION['loggedIn'] != true)
     header('location:login.html');
 else{
+    // htmlspecialchars($_GET['id']);
     $course = getCourse($_GET['id']);
-    if($course!=NULL)
-        $chapters = getCourseChapters($course['id']);
+    $chapters = getCourseChapters($course['id']);
+}
 
-    }
 ?>
 
 <!doctype html>
@@ -94,22 +94,7 @@ else{
 
 <body>
 
-    <!--====== PRELOADER PART START ======-->
-
-    <!-- <div class="preloader">
-        <div class="loader rubix-cube">
-            <div class="layer layer-1"></div>
-            <div class="layer layer-2"></div>
-            <div class="layer layer-3 color-1"></div>
-            <div class="layer layer-4"></div>
-            <div class="layer layer-5"></div>
-            <div class="layer layer-6"></div>
-            <div class="layer layer-7"></div>
-            <div class="layer layer-8"></div>
-        </div>
-    </div> -->
-
-    <!--====== PRELOADER PART START ======-->
+    
 
     <!--====== HEADER PART START ======-->
 
@@ -154,15 +139,12 @@ else{
                                         <a href="teacherPage.php" style="font-size: 1.5rem;">Courses</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Forum</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="#">Forum</a></li>
-                                            <li><a href="#">Private Forum</a></li>
-                                        </ul>
+                                        <a href="ForumModule/index.php" style="font-size: 1.5rem;">Forum</a>
+                                        
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">News</a>
+                                        <a href="News.php" style="font-size: 1.5rem;">News</a>
 
                                     </li>
 
@@ -191,7 +173,8 @@ else{
             <center>
                 <h2>Course Name: <?php echo $course["name"] ?></h2>
             </center>
-            <a href="NewChapter.php?courseId=<?php echo $course["id"]; ?>" class="main-btn">New Chapter</a>
+            <a href="NewChapter.php?courseId=<?php echo $course['id'] ?>" class="main-btn" style="height:3rem;">New
+                Chapter</a>
             <!-- <div class="row"> -->
             <br>
             <div class="corses-tab mt-30">
@@ -202,7 +185,7 @@ else{
                     </li> -->
                     <li class="nav-item">
                         <a id="curriculam-tab" data-toggle="tab" href="#curriculam" role="tab"
-                            aria-controls="curriculam" aria-selected="false">Curriculam</a>
+                            aria-controls="curriculam" aria-selected="false">Curriculum</a>
                     </li>
                     <!-- <li class="nav-item">
                         <a id="instructor-tab" data-toggle="tab" href="#instructor" role="tab"
@@ -241,15 +224,19 @@ else{
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                         data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <p style="color:black;"><?php echo $chapter['category']; ?><br><i
-                                                    class="<?php if($chapter['file']!=NULL) echo 'fa fa-file-o';?>"></i>
+                                            <p style="color:black;"><?php echo $chapter['category']; ?><br>
                                                 <span>
-                                                    <?php if($chapter['file']!=NULL) echo 'Chapter File:'?><a
-                                                        href="<?php echo $chapter['file'];?>"
-                                                        target="_blank"><?php if($chapter['file']!=NULL) echo 'link'?></a>
+                                                    <?php if($chapter['file']!=NULL) echo 'Chapter File :'?><a
+                                                        href="<?php echo $chapter['file'];?>" target="_blank"><img
+                                                            src="<?php echo 'images/file-icon.png'?>"
+                                                            style="width:20%; height:20%;"></a>
                                                 </span>
                                                 <br>
-                                                <a href="" class="main-btn">Update</a>
+                                            <div class="button text-right">
+                                                <a href="" class="main-btn" style="height:3rem;">Update</a><a
+                                                    href="../Controller/DeleteChapter.php?id=<?php echo $chapter['id'] ?>"
+                                                    class="main-btn" style="height:3rem;">Delete</a>
+                                            </div>
                                             </p>
                                         </div>
                                     </div>
@@ -265,6 +252,10 @@ else{
                             <div class="title">
                                 <h6> Number Of Students: <?php echo $course['numberOfStudentsRegistered']?></h6>
                                 <h6> Number Of Likes: <?php echo $course['numberOfLikes']?></h6>
+                                <br>
+                                <a href="#" class="main-btn" style="height:3rem;">Update Course</a>
+                                <a href="../Controller/DeleteCourse.php?id=<?php echo $course['id'];?>" class="main-btn"
+                                    style="height:3rem;">Delete Course</a>
                             </div>
 
                         </div> <!-- reviews cont -->

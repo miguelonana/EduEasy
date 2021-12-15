@@ -1,0 +1,6 @@
+mdp Varchar2(50),
+
+constraint Cmdp1 check (RegExp_like (mdp,'[[:1ower:]]")),
+constraint Cmdp2 check (RegExp_like (mdp,'[[:UPPER:]]')),
+constraint Cmdp3 check (RegExp_like (mdp,'[[:digit:]]'))
+

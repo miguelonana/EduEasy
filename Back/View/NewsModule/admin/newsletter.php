@@ -25,7 +25,7 @@ break;
 <head>
   <meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<title><?php echo WBName; ?> - Newsletter</title>
+	<title>EduEasy Admin</title>
   <base href="../">
   <link rel="shortcut icon" href="images/<?php echo WBFavicon; ?>">
 	<link href="cpanel/dist/css/style.css" rel="stylesheet" type="text/css">
