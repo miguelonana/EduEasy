@@ -109,115 +109,7 @@ $nbCourses = countNbPaidCourses();
 
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part">
-
-        <div class="header-top d-none d-lg-block">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="header-contact text-lg-left text-center">
-                            <ul>
-                                <li><img src="images/all-icon/map.png" alt="icon"><span>1140 Rue Amir Abedelkader,
-                                        Tunis</span></li>
-                                <li><img src="images/all-icon/email.png" alt="icon"><span>EduEasyInfo@gmail.com</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="header-opening-time text-lg-right text-center">
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header top -->
-
-        <div class="header-logo-support pt-30 pb-30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-1 col-md-1">
-                        <div class="logo">
-                            <a href="#">
-                                <img src="images/logo.png" alt="Logo">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8">
-                        <div class="support-button float-right d-none d-md-block">
-                            <div class="support float-left">
-                                <div class="icon">
-                                    <img src="images/all-icon/support.png" alt="icon">
-                                </div>
-                                <div class="cont">
-                                    <p>Need Help? call us free</p>
-                                    <span>+2165285125499</span>
-                                </div>
-                            </div>
-                            <div class="button float-left">
-                                <a href="login.html" class="main-btn">Login</a>
-                                <a href="registration.html" class="main-btn">Register</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header logo support -->
-
-        <div class="navigation">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                        <a class="active" href="index.html">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#">Courses</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="PaidCourses.php">Premium Courses</a></li>
-                                            <li><a href="FreeCourses.php">Free Courses</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#">Forum</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="#">Forum</a></li>
-                                            <li><a href="#">Private Forum</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#">News</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav> <!-- nav -->
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                        <div class="right-icon text-right">
-                            <ul>
-                                <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i><span>0</span></a></li>
-                            </ul>
-                        </div> <!-- right icon -->
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div>
-
-    </header>
-
+    <?php include "headers/notLoggedInHeader.php" ?>
     <!--====== HEADER PART ENDS ======-->
 
     <!--====== SEARCH BOX PART START ======-->
@@ -301,10 +193,11 @@ $nbCourses = countNbPaidCourses();
                                     </div>
                                 </div>
                                 <div class="cont">
-                                    <span href="#">
+                                    <span href="#"> 
                                         <h4><?php echo $PaidCourse['name']; ?>
                                         </h4>
-                                    </span>
+                                       
+                                    </span><h6>price: 50DT</h5>
                                     <div class="course-teacher">
                                         <div class="thum">
                                             <a href="#"><img src="images/course/teacher/t-1.jpg" alt="teacher"></a><a
@@ -345,102 +238,7 @@ $nbCourses = countNbPaidCourses();
 
     <!--====== FOOTER PART START ======-->
 
-    <footer id="footer-part">
-        <div class="footer-top pt-40 pb-70">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2 col-md-1">
-                        <div class="footer-about mt-40">
-                            <div class="logo">
-                                <a href="#"><img src="images/logo-2.png" alt="Logo"></a>
-                            </div>
-                            <ul class="mt-20">
-                                <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div> <!-- footer about -->
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="footer-link mt-40">
-                            <div class="footer-title pb-25">
-                                <h6>Sitemap</h6>
-                            </div>
-                            <ul>
-                                <li><a href="index.html"><i class="fa fa-angle-right"></i>Home</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>News</a></li>
-                                <li><a href="PaidCourses.php"><i class="fa fa-angle-right"></i>Premuim Courses</a></li>
-                                <li><a href="FreeCourses.php"><i class="fa fa-angle-right"></i>Free Courses</a></li>
-                            </ul>
-                        </div> <!-- footer link -->
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="footer-link support mt-40">
-                            <div class="footer-title pb-25">
-                                <h6>Support</h6>
-                            </div>
-                            <ul>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Privacy</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i>Policy</a></li>
-                            </ul>
-                        </div> <!-- support -->
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-address mt-40">
-                            <div class="footer-title pb-25">
-                                <h6>Contact Us</h6>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="icon">
-                                        <i class="fa fa-home"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>1140 Rue Amir Abedelkader, Tunis</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <i class="fa fa-phone"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>+2165285125499</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <i class="fa fa-envelope-o"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>EduEasyinfo@gmail.com</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> <!-- footer address -->
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- footer top -->
-
-        <div class="footer-copyright pt-10 pb-25">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="copyright text-md-left text-center pt-15">
-                            <!-- <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a> </p> -->
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="copyright text-md-right text-center pt-15">
-
-                        </div>
-                    </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- footer copyright -->
-    </footer>
-
+    <?php include "headers/footer.php" ?>
     <!--====== FOOTER PART ENDS ======-->
 
 

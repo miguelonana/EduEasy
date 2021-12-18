@@ -7,7 +7,7 @@
                     <div class="col-lg-2 col-md-1">
                         <div class="footer-about mt-40">
                             <div class="logo">
-                                <a href="#"><img src="images/logo-2.png" alt="Logo"></a>
+                                <a href="#"><img src="images/favicon.png" alt="Logo"></a>
                             </div>
                             <ul class="mt-20">
                                 <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>

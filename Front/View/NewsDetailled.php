@@ -151,7 +151,7 @@ $news=getNews($newsId);
                             <a href="#"><span><i class="fa fa-calendar"></i><?php echo $news['pub_date']?></span></a>
                             <!-- <a href="#"><span><i class="fa fa-clock-o"></i> 10:00 Am - 3:00 Pm</span></a> -->
                             <!-- <a href="#"><span><i class="fa fa-map-marker"></i> Rc Auditorim</span></a> -->
-                            <img src="../../Back/NewsModule/images/blog/<?php echo $news['media']; ?>" alt="Event">
+                            <img src="../../Back/View/NewsModule/images/blog/<?php echo $news['media']; ?>" alt="Event">
                             <p><?php echo $news['content']?></p>
                         </div> <!-- events left -->
                     </div>

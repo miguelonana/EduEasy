@@ -51,6 +51,22 @@ function checkParticipation($userId,$courseId){
     
 }
 
+function countC($userId){
+    $db = config::getConnexion();
+    
+    $Query = "SELECT count(*) AS nb FROM cart where product_code='$userId' ";
+    
+    try {
+        $res = $db->query($Query);
+        $data = $res->fetch();
+        $nb = $data['nb'];
+        return $nb;
+            
+    } catch (PDOException $e) {
+            $e->getMessage();
+    }
+}
+
 session_start();
 if(!isset($_SESSION['loggedIn']) )
     header('location:login.html');
@@ -59,6 +75,7 @@ else if($_SESSION['loggedIn'] != true)
 else{
 $PaidcoursesList = getPaidCourses();
 $nbCourses = countNbPaidCourses();
+$triche = countC($_SESSION['userId']);
 }
 ?>
 
@@ -134,88 +151,7 @@ $nbCourses = countNbPaidCourses();
 
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part" style="padding-top: 1rem;">
-        <div class="navigation">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 col-md-10 col-sm-9 col-8">
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent"
-                                style="margin-left: 10rem;">
-                                <div class="col-lg-2 col-md-2 col-sm-3 col-6">
-                                    <div class="logo">
-                                        <a href="#">
-                                            <img src="images/logo.png" alt="Logo">
-                                        </a>
-                                    </div>
-                                </div>
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Courses</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="ShowPaidCourses.php">Premium Courses</a></li>
-                                            <li><a href="ShowFreeCourses.php">Free Courses</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">Forum</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="#">Forum</a></li>
-                                            <li><a href="#">Private Forum</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#" style="font-size: 1.5rem;">News</a>
-
-                                    </li>
-
-                                    <div class="col-lg-5 col-md-2 col-sm-3 col-6">
-                                        <div class="right-icon text-right">
-                                            <ul>
-                                                <li><a href="#" id="search"><i class="fa fa-search"
-                                                            style="font-size: 1.5rem;"></i></a></li>
-                                                <li style=""><a href="#" class="right-icon"><i
-                                                            class="fa fa-shopping-bag"
-                                                            style="font-size: 1.5rem;"></i><span>0</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <li class="nav-item text-right">
-                                        <a href="#"><img src="../View/images/feature-user.png" alt="userImage"
-                                                style="border: solid 1px black; padding: 2rem; border-radius: 50%; margin-left: 1em; background-color: whitesmoke;" /></a>
-                                        <ul class="sub-menu">
-                                            <li><a href="studentMyProfile.php">My Profile</a></li>
-                                            <li><a href="StudentRegisteredCourses.php">My Courses</a></li>
-                                            <li><a href="../Controller/logoutControl.php">Sign out</a></li>
-                                        </ul>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </nav> <!-- nav -->
-                    </div>
-                    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                        <div class="right-icon text-right">
-                            <ul>
-                            </ul>
-                        </div>  right icon 
-                    </div> -->
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div>
-
-    </header>
+    <?php include "headers/StudentMainHeader.php"?>
 
 
     <!--====== HEADER PART ENDS ======-->
@@ -316,7 +252,7 @@ $nbCourses = countNbPaidCourses();
                                         </div>
                                         <div class="course-teacher">
                                             <div class="admin">
-                                                <a href="../Controller/studentActOnCourses.php?courseNum=<?php echo $PaidCourse['id']?>&action=<?php if(checkParticipation($_SESSION['userId'],$FreeCourse['id'])>0)echo "Drop"; /*else echo "Buy";*/ ?> "
+                                                <a href="../Controller/studentActOnCourses.php?courseNum=<?php echo $PaidCourse['id']?>&action=<?php if(checkParticipation($_SESSION['userId'],$PaidCourse['id'])>0)echo "Drop"; else echo "Buy"; ?> "
                                                     class="main-btn"><?php if(checkParticipation($_SESSION['userId'],$PaidCourse['id'])>0)echo "Drop Course"; else echo "Buy Course"; ?></a>
                                                 <ul>
                                                     <center>

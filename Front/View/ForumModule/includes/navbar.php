@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
+    <img src="../images/favicon.png" alt="logo" srcset="" style="height:5%;width:5%;">
     <a class="navbar-brand" href="#">Forum</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -16,7 +17,11 @@
           <a class="nav-link" href="my-questions.php">Mes questions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../studentPage.php">Retour a ma page</a>
+          <a class="nav-link" href="<?php
+          $searchSTU = 'STU';
+           if(preg_match("/{$searchSTU}/i", $_SESSION['userId']))
+           echo '../studentPage.php';
+           else echo '../teacherPage.php';?>">Retour a ma page</a>
         </li>
         <?php 
           if(isset($_SESSION['auth'])){

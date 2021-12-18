@@ -42,16 +42,16 @@
 
 </head>
 
-<body onload="onLoad()">
+<body  onload="onLoad()">
 
     <div class="pt-105 pb-110 bg_cover" class="row">
         <center>
-            <h2>Login to your EduEasy Account</h2>
+            <h2>Login as An EduEasy Administrator</h2>
             <br>
 
             <!--============FORM PART STARTS=========== -->
             <div class="main-form pt-45">
-                <form id="loginForm" action="../Controller/loginControl.php" method="post" data-toggle="validator"
+                <form id="loginForm" action="../../Front/Controller/loginControl.php" method="post" data-toggle="validator"
                     style="border: solid black; border-radius: 9em; padding-bottom: 2rem; padding-top: 3rem; margin-right: 19vw; margin-left: 19vw;">
                     <span id="loginError" style="color: red; font-size: 1em; font-weight: bold;">
                     </span>
@@ -76,17 +76,13 @@
                     <div id="errorMessage" style="color: red;"></div>
                     <br>
                     <input type="submit" value="Login" id="submitButton" class="main-btn">
-                    <p style="font-size: 1em; color: black;">or <a href="resetPassword.html"
-                            style="text-decoration: underline;">I forgot
+                    <p style="font-size: 1em; color: black;">or <a href="resetPassword.html" style="text-decoration: underline;">I forgot
                             my password</a></p>
-                            <br>
-                    <p style="font-size: 1em; color: black;"><a href="../../Back/View/login.html"
-                            style="text-decoration: underline;">login as an Administrator</a></p>
                 </form>
             </div>
             <br>
-            <h6 style="font-size: 1.25em; color: black;">Don't have an account yet? <a href="registration.html"
-                    style="text-decoration: underline;">Register</a></h6>
+            <h6 style="font-size: 1.25em; color: black;"><a href="../../Front/View/login.html"
+                    style="text-decoration: underline;">login as a student or teacher</a></h6>
         </center>
     </div>
     <!--====== FORM PART ENDS ======-->
@@ -100,7 +96,7 @@
                     <div class="col-lg-2 col-md-1">
                         <div class="footer-about mt-40">
                             <div class="logo">
-                                <a href="#"><img src="images/logo-2.png" alt="Logo"></a>
+                                <a href="#"><img src="../View/images/favicon.png" alt="Logo"></a>
                             </div>
                             <ul class="mt-20">
                                 <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
@@ -204,37 +200,37 @@
         var regexADM = /ADM/;
         var page = document.getElementById('page');
 
-        loginButton.addEventListener('click', (event) => {
-
-            if (userId.value.length == 0 || password.value.length == 0)
-                errorMessage.innerHTML = "You have to fill all the required information";
+        loginButton.addEventListener('click',(event)=>{
+            
+            if(userId.value.length==0 || password.value.length==0)
+                errorMessage.innerHTML="You have to fill all the required information";
             else
-                errorMessage.innerHTML = "";
+                errorMessage.innerHTML="";
 
-            if (userId.value.length > 0 && (!(regexSTU.test(userId.value)) && !(regexTEA.test(userId.value))))
-                errorMessageUserId.innerHTML = "Check your ID";
+            if(userId.value.length>0 && (!(regexADM.test(userId.value))))
+                errorMessageUserId.innerHTML="Check your ID";
             else
-                errorMessageUserId.innerHTML = "";
+                errorMessageUserId.innerHTML="";
 
-            if (errorMessage.innerHTML != "" || errorMessageUserId.innerHTML != "")
-                event.preventDefault();
+            if(errorMessage.innerHTML!="" || errorMessageUserId.innerHTML!="")
+                event.preventDefault();       
         });
 
 
-        function onLoad() {
+        function onLoad(){
 
             var url = window.location.href;
             var regexError1 = /error=1/;
             var regexError2 = /error=2/;
             var loginError = document.getElementById('loginError');
 
-            if (regexError1.test(url)) {
+            if(regexError1.test(url)){
                 loginError.innerHTML = "There was a problem Logging in.<br>Check your UserId and password";
             }
-            else if (regexError2.test(url))
+            else if(regexError2.test(url))
                 loginError.innerHTML = "An email has being sent to you with your new password.<br> Use it to login to your Account";
             else
-                loginError.innerHTML = "";
+                loginError.innerHTML = "";        
         }
 
     </script>

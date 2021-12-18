@@ -152,7 +152,7 @@ else{
 
     <!--====== HEADER PART START ======-->
 
-    <?php include "header/StudentMainHeader.php" ?>
+    <?php include "headers/StudentMainHeader.php" ?>
 
 
     <!--====== HEADER PART ENDS ======-->

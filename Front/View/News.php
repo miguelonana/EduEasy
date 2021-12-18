@@ -94,8 +94,8 @@ $NewsList = getNews();
     $searchSTU = "STU";
     if(!isset($_SESSION['loggedIn']))
         include "headers/notLoggedInHeader.php";
-    else if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']==true && !preg_match("/{$searchSTU}/i", $_SESSION['userId'])) 
-        include "headers/StudentmainHeader.php";
+    else if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']==true && preg_match("/{$searchSTU}/i", $_SESSION['userId'])) 
+        include "headers/StudentMainHeader.php";
     else{ 
         include "headers/TeacherMainHeader.php";
     }
@@ -151,7 +151,7 @@ $NewsList = getNews();
                 <div class="col-lg-6">
                     <div class="singel-event-list mt-30">
                         <div class="event-thum">
-                            <img src="../../Back/NewsModule/images/blog/<?php echo $news['media']; ?>" alt="Event">
+                            <img src="../../Back/View/NewsModule/images/blog/<?php echo $news['media']; ?>" alt="Event">
                         </div>
                         <div class="event-cont">
                             <span><i class="fa fa-calendar"></i> <?php echo $news['pub_date']; ?></span>

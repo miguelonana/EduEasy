@@ -154,6 +154,8 @@ else if(isset($_GET['courseNum']) && isset($_SESSION['userId']) && isset($_GET['
     updateNumberOfLikes($courseId,"decrement");
     header("location:../View/ShowFreeCourses.php");
 }
+else if($_GET['action']=='Buy')
+header("location:AddCoursetoCart.php?courseId=".$_GET['courseNum']);
 
 
 ?>
